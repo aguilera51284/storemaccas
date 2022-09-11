@@ -82,7 +82,6 @@ export async function getStaticProps() {
       topProducts: topProducts.data,
       tagsHome: tagsHome.data,
       mostSelling: mostSelling.data
-    },
-    revalidate: 60
+    }
   };
 }
