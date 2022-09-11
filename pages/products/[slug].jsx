@@ -1,6 +1,7 @@
 import Layout from '@/components/layout';
 import http from '@/lib/http';
 import qs from 'qs';
+import { useRouter } from 'next/router';
 import currency from 'currency.js';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 //import DetailTwo from '@/components/partials/product/details/detail-two';
@@ -9,7 +10,16 @@ import ProductGallery from '@/components/partials/product/gallery';
 //import RelatedProductsOne from '@/components/partials/product/related/related-one';
 
 const ProductDetail = ({ product }) => {
-  console.log(product);
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <Layout>
+        <div>Loading...</div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="container my-12">
@@ -41,12 +51,18 @@ const ProductDetail = ({ product }) => {
               Caracteristicas
             </button>
 
-            <button disabled className=" cursor-base -mb-px h-10 whitespace-nowrap border-b-2 border-transparent bg-transparent px-4 py-2 text-center  text-gray-700 hover:border-gray-400 focus:outline-none  sm:text-base disabled:opacity-40">
+            <button
+              disabled
+              className=" cursor-base -mb-px h-10 whitespace-nowrap border-b-2 border-transparent bg-transparent px-4 py-2 text-center  text-gray-700 hover:border-gray-400 focus:outline-none  disabled:opacity-40 sm:text-base"
+            >
               Ratings
             </button>
           </div>
-          <div className='mt-4'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat inventore nisi explicabo quia aspernatur blanditiis, officiis dicta eaque sunt atque fugiat natus ipsa veritatis quis, delectus velit quidem dolores voluptate!
+          <div className="mt-4">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+            inventore nisi explicabo quia aspernatur blanditiis, officiis dicta
+            eaque sunt atque fugiat natus ipsa veritatis quis, delectus velit
+            quidem dolores voluptate!
           </div>
         </div>
       </div>
