@@ -23,7 +23,7 @@ const ProductDetail = ({ product }) => {
   return (
     <Layout>
       <div className="container my-12">
-        <div className="flex space-x-6">
+        <div className="flex space-x-6 flex-wrap md:flex-nowrap">
           {/** Gallery */}
           <div className="w-full md:w-1/2">
             <ProductGallery product={product} />
