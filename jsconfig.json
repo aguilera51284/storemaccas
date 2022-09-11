@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+       "@/*": ["./*"]
+    },
+    "moduleResolution": "node"
+  },
+  "checkJs": true,
+  "exclude": ["node_modules", ".cache", "dist", ".next", "build"]
+}
