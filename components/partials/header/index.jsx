@@ -40,8 +40,8 @@ const Header = () => {
               />
             </div>
           </div>
-          <ul className=" items-center space-x-8 flex">
-            <li className="hidden md:inline-flex items-center transition-colors duration-150 ease-in-out hover:text-green-700">
+          <ul className=" flex items-center space-x-8">
+            <li className="hidden items-center transition-colors duration-150 ease-in-out hover:text-green-700 md:inline-flex">
               <PhoneIcon className="mr-2 h-5 w-5 fill-current" />
               <a
                 className="font-medium uppercase"
@@ -60,24 +60,37 @@ const Header = () => {
       <div className="bg-black ">
         <div className="container text-white">
           <div className="flex items-center">
-            <ul className="hidden md:flex items-center w-full justify-start py-4 flex-1">
+            <ul className="hidden w-full flex-1 items-center justify-start py-4 md:flex">
               <li className="px-4">
                 <Link href="/">
-                  <a className="font-medium uppercase hover:text-accent-400 ease-linear duration-150 transition-colors">Inicio</a>
+                  <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
+                    Inicio
+                  </a>
+                </Link>
+              </li>
+              <li className="px-4">
+                <Link href="/catalog">
+                  <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
+                    Catálogo
+                  </a>
                 </Link>
               </li>
               <li className="px-4">
                 <Link href="/">
-                  <a className="font-medium uppercase hover:text-accent-400 ease-linear duration-150 transition-colors">Quienes somos</a>
+                  <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
+                    Quienes somos
+                  </a>
                 </Link>
               </li>
               <li className="px-4">
                 <Link href="/">
-                  <a className="font-medium uppercase hover:text-accent-400 ease-linear duration-150 transition-colors">Contacto</a>
+                  <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
+                    Contacto
+                  </a>
                 </Link>
               </li>
             </ul>
-            <div className="py-2 text-center md:text-right w-full md:w-auto  md:ml-auto flex-shrink-0 items-center text-xs font-medium uppercase">
+            <div className="w-full flex-shrink-0 items-center py-2 text-center  text-xs font-medium uppercase md:ml-auto md:w-auto md:text-right">
               Compra mas de $10,000 y el envio es gratis.
             </div>
           </div>

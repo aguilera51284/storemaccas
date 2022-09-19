@@ -5,7 +5,6 @@ import currency from 'currency.js';
 import Link from 'next/link';
 
 const ProductOne = ({ product }) => {
-  console.log(product);
   return (
     <article className="border border-gray-300">
       <div className="p-16">

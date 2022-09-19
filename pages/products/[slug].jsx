@@ -215,8 +215,6 @@ export async function getStaticProps({ params }) {
       })}`,
     )
     .json();
-
-  console.log(articlesRes.data[0]);
   return {
     props: { product: articlesRes.data[0] },
     revalidate: 60,

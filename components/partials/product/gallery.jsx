@@ -8,7 +8,6 @@ const ProductGallery = ({ product }) => {
   const thumbnailSlide = createRef(null);
 
   useEffect(() => {
-    console.log(mainSlide)
     if (mainSlide.current && thumbnailSlide.current) {
       mainSlide.current.sync(thumbnailSlide.current.splide);
     }
