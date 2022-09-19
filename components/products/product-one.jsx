@@ -13,7 +13,11 @@ const ProductOne = ({ product }) => {
           <a>
             <figure className="aspect-w-4 aspect-h-3 relative bg-primary-100">
               <Image
-                src={getStrapiMedia(product.attributes.thumbnail)}
+                src={
+                  product.attributes.thumbnail
+                    ? getStrapiMedia(product.attributes.thumbnail)
+                    : 'https://maccas.s3.us-east-2.amazonaws.com/127533130_no_hay_icono_de_imagen_disponible_vector_plano_078e2631d2.jpg?updated_at=2022-09-19T21:07:56.108Z'
+                }
                 layout="fill"
                 objectFit="cover"
                 alt={`Product-${product.attributes.code}`}
@@ -28,9 +32,11 @@ const ProductOne = ({ product }) => {
             <span className="block  text-lg font-semibold text-gray-800">
               {`${product.attributes.code} `}
             </span>
-            <span className="block text-sm text-gray-600">
-              {`${product.attributes.productBrand.data.attributes.name} ${product.attributes.year}`}
-            </span>
+            {product.attributes.productBrand && (
+              <span className="block text-sm text-gray-600">
+                {`${product.attributes.productBrand.data.attributes.name} ${product.attributes.year}`}
+              </span>
+            )}
           </a>
         </Link>
         <div className="mt-6 flex items-center uppercase">
