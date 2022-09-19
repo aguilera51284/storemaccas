@@ -42,7 +42,7 @@ export default function Home({ homeBanner, topProducts, tagsHome, mostSelling })
               <div className="flex items-center space-x-8 px-6 py-4">
                 <div className=" w-1/2">
                   <span className="text-xl font-medium uppercase">
-                    {tag.attributes.name}
+                    {tag.attributes.description}
                   </span>
                 </div>
                 <div className="w-1/2 text-center">
@@ -82,6 +82,7 @@ export async function getStaticProps() {
       topProducts: topProducts.data,
       tagsHome: tagsHome.data,
       mostSelling: mostSelling.data
-    }
+    },
+    revalidate: 360
   };
 }

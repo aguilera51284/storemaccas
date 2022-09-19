@@ -33,6 +33,7 @@ const ProductGallery = ({ product }) => {
                 layout="fill"
                 alt={galleryImage.attributes.ash}
                 objectFit="cover"
+                priority
               />
             </div>
           </SplideSlide>
@@ -45,6 +46,7 @@ const ProductGallery = ({ product }) => {
           rewind: true,
           pagination: false,
           isNavigation: true,
+          arrows: false,
           perPage: 6,
         }}
         id="thumbnailSlide"
@@ -52,7 +54,7 @@ const ProductGallery = ({ product }) => {
         className="mt-6"
       >
         {product.attributes.gallery.data.map((galleryImage) => (
-          <SplideSlide key={`thumb-${product.id}`} className="p-8">
+          <SplideSlide key={`thumb-${product.id}`} className="p-6">
             <div className="aspect-w-4 aspect-h-3 relative">
               <Image
                 src={getStrapiMedia(galleryImage)}
