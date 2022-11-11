@@ -3,12 +3,13 @@
 @import 'tailwindcss/base';
 
 @import 'tailwindcss/components';
+@import './spinner.css';
 
 @import 'tailwindcss/utilities';
 
 @layer base {
-
-  html, body {
+  html,
+  body {
     height: 100%;
   }
 
@@ -36,7 +37,7 @@
   @apply relative top-0 left-auto right-auto ml-auto flex transform-none items-center  text-black !important;
 }
 
-.splide__slide  {
+.splide__slide {
   &.is-active {
     @apply rounded-md border-accent-500 !important;
   }
@@ -46,15 +47,21 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  @apply  min-h-screen;
+  @apply min-h-screen;
 }
 
-.page__header,
-.page__footer {
-  flex-shrink: 0;
+.page__header {
+  /* Stick to the top */
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-.page__main {
-  margin-top: auto;
-  flex-grow: 1;
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
 }

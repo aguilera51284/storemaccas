@@ -9,6 +9,8 @@ import { filterXSS } from 'xss';
 import ProductGallery from '@/components/partials/product/gallery';
 import ProductRelations from '@/components/partials/product/relations';
 import useSwr from 'swr';
+import { unstable_getServerSession } from 'next-auth/next';
+import { authOptions } from '../api/auth/[...nextauth]';
 
 const ProductDetail = ({ product }) => {
   const router = useRouter();
@@ -147,9 +149,20 @@ const ProductDetail = ({ product }) => {
             </ul>
 
             <div className="mt-12 flex items-center ">
-              <h3 className="text-3xl font-semibold">
-                {currency(product.attributes.price).format()}
-              </h3>
+              {product.attributes.hasDiscount ? (
+                <div className="inline-flex items-center">
+                  <h3 className="text-3xl font-semibold text-red-500 mr-2">
+                    {currency(product.attributes.totalPriceTax).format()}
+                  </h3>
+                  <h3 className="text-3xl font-semibold line-through opacity-50">
+                    {currency(product.attributes.priceTax).format()}
+                  </h3>
+                </div>
+              ) : (
+                <h3 className="text-3xl font-semibold">
+                  {currency(product.attributes.priceTax).format()}
+                </h3>
+              )}
               <button
                 disabled={!product.attributes.stock >= 1}
                 className="ml-auto inline-flex items-center rounded-md bg-accent-500 py-4 px-6 uppercase text-white"
@@ -191,33 +204,47 @@ const ProductDetail = ({ product }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const articlesRes = await http.get('products', { fields: ['slug'] }).json();
+// export async function getStaticPaths() {
+//   const articlesRes = await http.get('products', { fields: ['slug'] }).json();
 
-  return {
-    paths: articlesRes.data.map((article) => ({
-      params: {
-        slug: article.attributes.slug,
-      },
-    })),
-    fallback: true,
-  };
-}
+//   return {
+//     paths: articlesRes.data.map((article) => ({
+//       params: {
+//         slug: article.attributes.slug,
+//       },
+//     })),
+//     fallback: true,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
-  const articlesRes = await http
+export async function getServerSideProps({ params, ...ctx }) {
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions,
+  );
+
+  const extended = http.extend({
+    headers: {
+      ...(session ? { Authorization: `Bearer ${session.jwt}` } : {}),
+    },
+  });
+
+  const articlesRes = await extended
     .get(
       `products?${qs.stringify({
         filters: {
           slug: params.slug,
         },
         populate: ['gallery', 'carBrand', 'productBrand'],
+        select: ['carBrand.name'],
       })}`,
     )
     .json();
+  console.log(articlesRes.data[0]);
   return {
     props: { product: articlesRes.data[0] },
-    revalidate: 60,
+    //revalidate: 60,
   };
 }
 

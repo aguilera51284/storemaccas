@@ -9,7 +9,7 @@ const NewsLatter = () => {
           <div className="inline-flex w-full items-center space-x-6 md:w-1/2">
             <FastNewsLatterIcon className="h-24 w-24" />
             <div>
-              <span className="text-3xl">Suscribtete a nuestro newsletter</span>{' '}
+              <span className="text-3xl">Suscribtete a nuestro newsletter</span>
               <br />
               <span className="text-xl text-gray-400">
                 y no te pierdas las ofertas y nuevos productos

@@ -100,7 +100,7 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
             <div className="w-2/3">
               <div className="flex items-center py-6">
                 <p className="text-normal font-medium">
-                  Mostrando:{' '}
+                  Mostrando:
                   <span className="text-accent-500">{totalCount}</span>{' '}
                   productos
                 </p>

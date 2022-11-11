@@ -3,15 +3,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   MagnifyingGlassIcon,
+  PhoneIcon,
   ShoppingCartIcon,
   UserIcon,
-  PhoneIcon,
 } from '@heroicons/react/24/outline';
+import { useStore } from '@/store';
+import { cartQtyTotal, isSSR } from '@/lib';
+import { useSession } from 'next-auth/react';
+import UserMenu from './userMenu';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartlist = useStore((state) => state['@@cart']);
+  const { data: session } = useSession();
+
   return (
-    <header className="w-full shadow">
+    <header className="w-full  bg-white shadow-md">
       <div className="container">
         <div className="flex items-center justify-between py-4">
           <Link href="/">
@@ -52,8 +59,33 @@ const Header = () => {
                 +52 993 105 5006
               </a>
             </li>
-            <ShoppingCartIcon className="h-6 w-6 text-gray-800" />
-            <UserIcon className="h-6 w-6 text-gray-800" />
+
+            <Link href="/cart">
+              <a className="relative">
+                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent-500 text-xs text-white">
+                  {isSSR ? cartQtyTotal(cartlist) : 0}
+                </span>
+                <ShoppingCartIcon className="h-6 w-6 text-gray-800" />
+              </a>
+            </Link>
+            {session ? (
+              <>
+                <UserMenu />
+              </>
+            ) : (
+              <div>
+                <Link href="/login">
+                  <a className="rounded-md bg-accent-500 py-1 px-4 text-sm text-white mr-2">
+                    Iniciar session
+                  </a>
+                </Link>
+                <Link href="/register">
+                  <a className="rounded-md border border-accent-500 py-1 px-4 text-sm">
+                    Registrarse
+                  </a>
+                </Link>
+              </div>
+            )}
           </ul>
         </div>
       </div>
