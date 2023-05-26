@@ -13,20 +13,21 @@ import Image from 'next/image';
 import { getStrapiMedia } from '@/lib/strapi';
 import NewsLetterForm  from '@/components/partials/newsletter';
 
-export default function Home({ homeBanner, topProducts, tagsHome, mostSelling }) {
+
+
+export default function Home({ homeBanner, tagsHome, mostSelling }) {
   return (
     <Layout>
       {/* Main Banner */}
       <Banner slides={homeBanner.data} />
       {/** Top products */}
-      <SlidesPrducts products={topProducts} title="Productos Top" />
+      <SlidesPrducts url={`products?${getTopProducts}`} title="Productos Top" />
       {/** Tags Home */}
       <div className="container">
         <div className="flex items-center">
           <span className="text-xl font-semibold uppercase">
             Nuestros productos
           </span>
-
           <Link href="/catalog">
             <a className="ml-auto rounded-md border-2 border-accent-500 py-1 px-4 font-medium uppercase  transition-colors duration-150 ease-linear hover:bg-accent-500 hover:text-white">
               Ver mas
@@ -61,7 +62,7 @@ export default function Home({ homeBanner, topProducts, tagsHome, mostSelling })
       {/* NewsLetterForm */}
       <NewsLetterForm />
       {/** Most selling */}
-      <SlidesPrducts products={mostSelling} title="Productos mas vendidos" />
+      <SlidesPrducts url={`products?${getMostSelling}`} title="Productos mas vendidos" />
     </Layout>
   );
 }
@@ -70,18 +71,12 @@ export async function getStaticProps() {
   const homeBanner = await http
     .get(`banners?${slidesByPosition('HOME')}`)
     .json();
-
-  const topProducts = await http.get(`products?${getTopProducts}`).json();
-
   const tagsHome = await http.get(`tags?${getTagsForHome}`).json();
-  const mostSelling = await http.get(`products?${getMostSelling}`).json();
 
   return {
     props: {
       homeBanner: homeBanner.data[0].attributes.slides,
-      topProducts: topProducts.data,
-      tagsHome: tagsHome.data,
-      mostSelling: mostSelling.data
+      tagsHome: tagsHome.data
     },
     revalidate: 360
   };
