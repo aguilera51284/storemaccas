@@ -1,11 +1,11 @@
-import Layout from '@/components/layout';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import LoginSchema from '@/schema/login';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import Layout from '@/components/layout'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import LoginSchema from '@/schema/login'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const Login = () => {
   const {
@@ -13,29 +13,28 @@ const Login = () => {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(LoginSchema) });
-  const router = useRouter();
+  } = useForm({ resolver: zodResolver(LoginSchema) })
+  const router = useRouter()
   const onSubmit = (data) => {
     signIn('credentials', {
       ...data,
       redirect: false,
     }).then(({ ok, error }) => {
       if (ok) {
-        router.push('/');
+        router.push('/')
       } else {
-        setError(
-          'serverError',
-          {message:'Usuario o contrasena incorrectas. vuelva a intentar.'}
-        );
-        console.warn('error: ', error);
+        setError('serverError', {
+          message: 'Usuario o contrasena incorrectas. vuelva a intentar.',
+        })
+        console.warn('error: ', error)
       }
-    });
-  };
+    })
+  }
   return (
     <Layout>
       <div className="bg-slate-100 py-12 md:py-24">
-        <div class="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
-          <div class="p-8">
+        <div className="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
+          <div className="p-8">
             <Link href="/">
               <Image
                 src="/images/logo.jpeg"
@@ -44,11 +43,11 @@ const Login = () => {
                 alt="Maccas"
               />
             </Link>
-            <h3 class="mt-1 text-center text-xl font-medium text-gray-600 ">
+            <h3 className="mt-1 text-center text-xl font-medium text-gray-600 ">
               Bienvenido
             </h3>
 
-            <p class="mt-1 text-center text-gray-500 ">
+            <p className="mt-1 text-center text-gray-500 ">
               Iniciar sesion o crear cuenta
             </p>
 
@@ -59,8 +58,8 @@ const Login = () => {
                 </p>
               )}
 
-              <div class="mt-4">
-                <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <div className="mt-4">
+                <label className="mb-2 block text-sm font-medium text-gray-600 ">
                   Email
                 </label>
                 <input
@@ -73,9 +72,9 @@ const Login = () => {
                 </p>
               </div>
 
-              <div class="mt-4">
-                <div class="flex justify-between">
-                  <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <div className="mt-4">
+                <div className="flex justify-between">
+                  <label className="mb-2 block text-sm font-medium text-gray-600 ">
                     Password
                   </label>
                 </div>
@@ -89,14 +88,14 @@ const Login = () => {
                   {errors.password?.message || ''}
                 </p>
               </div>
-              <div class="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between">
                 <Link href="/forgot-password">
-                  <a class="text-sm text-gray-600 hover:text-gray-500 ">
+                  <a className="text-sm text-gray-600 hover:text-gray-500 ">
                     Olvidaste tu contrasena?
                   </a>
                 </Link>
                 <button
-                  class="transform rounded bg-primary-700 px-4 py-2 leading-5 text-white transition-colors duration-300 hover:bg-primary-600 focus:outline-none disabled:opacity-40"
+                  className="transform rounded bg-primary-700 px-4 py-2 leading-5 text-white transition-colors duration-300 hover:bg-primary-600 focus:outline-none disabled:opacity-40"
                   type="submit"
                   disabled={isSubmitting}
                 >
@@ -110,11 +109,11 @@ const Login = () => {
             </form>
           </div>
 
-          <div class="flex items-center justify-center bg-primary-800 py-4 text-center">
-            <span class="text-sm text-white ">No tienes cuenta?</span>
+          <div className="flex items-center justify-center bg-primary-800 py-4 text-center">
+            <span className="text-sm text-white ">No tienes cuenta?</span>
 
             <Link href="/register">
-              <a class="mx-2 text-sm font-bold text-primary-500 hover:underline dark:text-primary-400">
+              <a className="mx-2 text-sm font-bold text-primary-500 hover:underline dark:text-primary-400">
                 Registrate
               </a>
             </Link>
@@ -122,7 +121,7 @@ const Login = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

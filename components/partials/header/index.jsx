@@ -1,21 +1,21 @@
-import { useState } from 'preact/hooks';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from 'preact/hooks'
+import Image from 'next/image'
+import Link from 'next/link'
 import {
   MagnifyingGlassIcon,
   PhoneIcon,
   ShoppingCartIcon,
   UserIcon,
-} from '@heroicons/react/24/outline';
-import { useStore } from '@/store';
-import { cartQtyTotal, isSSR } from '@/lib';
-import { useSession } from 'next-auth/react';
-import UserMenu from './userMenu';
+} from '@heroicons/react/24/outline'
+import { useStore } from '@/store'
+import { cartQtyTotal, isSSR } from '@/lib'
+import { useSession } from 'next-auth/react'
+import UserMenu from './userMenu'
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartlist = useStore((state) => state['@@cart']);
-  const { data: session } = useSession();
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const cartlist = useStore((state) => state['@@cart'])
+  const { data: session } = useSession()
 
   return (
     <header className="w-full  bg-white shadow-md">
@@ -75,7 +75,7 @@ const Header = () => {
             ) : (
               <div>
                 <Link href="/login">
-                  <a className="rounded-md bg-accent-500 py-1 px-4 text-sm text-white mr-2">
+                  <a className="mr-2 rounded-md bg-accent-500 py-1 px-4 text-sm text-white">
                     Iniciar session
                   </a>
                 </Link>
@@ -108,7 +108,7 @@ const Header = () => {
                 </Link>
               </li>
               <li className="px-4">
-                <Link href="/">
+                <Link href="/about">
                   <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
                     Quienes somos
                   </a>
@@ -129,7 +129,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

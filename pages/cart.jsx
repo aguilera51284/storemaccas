@@ -1,22 +1,22 @@
-import { useState } from 'preact/hooks';
-import Layout from '@/components/layout';
-import Qty from '@/components/qty';
-import { useStore } from '@/store';
-import Image from 'next/image';
-import { toast } from 'react-hot-toast';
-import currency from 'currency.js';
-import { ArrowPathIcon, TrashIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { isSSR } from '@/lib';
-import OutStock from '@/components/outStock';
+import { useState } from 'preact/hooks'
+import Layout from '@/components/layout'
+import Qty from '@/components/qty'
+import { useStore } from '@/store'
+import Image from 'next/image'
+import { toast } from 'react-hot-toast'
+import currency from 'currency.js'
+import { ArrowPathIcon, TrashIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { isSSR } from '@/lib'
+import OutStock from '@/components/outStock'
 
 //TODO: Agregar los productos sin stock
 const CartPage = () => {
-  const [cartListUpdate, setCartList] = useState([]);
-  const cartList = useStore((state) => state['@@cart']);
-  const outStock = useStore((state) => state['@@outStock']);
-  const removeProductInCartStore = useStore((state) => state.deleteItemCart);
-  const updateCartItems = useStore((state) => state.updateCartItems);
+  const [cartListUpdate, setCartList] = useState([])
+  const cartList = useStore((state) => state['@@cart'])
+  const outStock = useStore((state) => state['@@outStock'])
+  const removeProductInCartStore = useStore((state) => state.deleteItemCart)
+  const updateCartItems = useStore((state) => state.updateCartItems)
 
   function changeQty(value, id) {
     const updateItems = cartList.map((item) => {
@@ -24,42 +24,42 @@ const CartPage = () => {
         return {
           ...item,
           quantity: value,
-        };
-      return item;
-    });
-    console.log('uppdating quantity', updateItems);
-    setCartList(updateItems);
+        }
+      return item
+    })
+    console.log('uppdating quantity', updateItems)
+    setCartList(updateItems)
   }
 
   async function updateCart(e) {
-    let button = e.currentTarget;
-    button.querySelector('.icon-refresh').classList.add('animate-spin');
-    console.log('sendValidation', cartListUpdate);
-    await updateCartItems(cartListUpdate);
-    toast.success('Productos actualizados correctamente.');
-    button.querySelector('.icon-refresh').classList.remove('animate-spin');
+    let button = e.currentTarget
+    button.querySelector('.icon-refresh').classList.add('animate-spin')
+    console.log('sendValidation', cartListUpdate)
+    await updateCartItems(cartListUpdate)
+    toast.success('Productos actualizados correctamente.')
+    button.querySelector('.icon-refresh').classList.remove('animate-spin')
   }
 
   return (
     <Layout>
       <div className="container mt-8 md:mt-16">
         <h3 className="text-2xl font-bold">Carrito de compras</h3>
-        <table class="my-12 w-full text-left text-sm  text-gray-500">
-          <thead class="bg-gray-100 text-xs uppercase text-gray-700  ">
+        <table className="my-12 w-full text-left text-sm  text-gray-500">
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700  ">
             <tr>
-              <th scope="col" class="py-3 px-6">
+              <th scope="col" className="py-3 px-6">
                 Producto
               </th>
-              <th scope="col" class="py-3 px-6">
+              <th scope="col" className="py-3 px-6">
                 Precio unitario
               </th>
-              <th scope="col" class="py-3 px-6">
+              <th scope="col" className="py-3 px-6">
                 Cantidad
               </th>
-              <th scope="col" class="py-3 px-6">
+              <th scope="col" className="py-3 px-6">
                 Precio Final
               </th>
-              <th scope="col" class="py-3 px-6" />
+              <th scope="col" className="py-3 px-6" />
             </tr>
           </thead>
           <tbody>
@@ -67,7 +67,7 @@ const CartPage = () => {
               <>
                 {cartList.length <= 0 ? (
                   <tr>
-                    <td colspan="5">
+                    <td colSpan="5">
                       <h3 className="block pt-12 text-center text-2xl">
                         El carrito de compra esta vacio.
                       </h3>
@@ -79,10 +79,10 @@ const CartPage = () => {
                   </tr>
                 ) : (
                   cartList.map((item) => (
-                    <tr class="border-b bg-white" key={item.id}>
+                    <tr className="border-b bg-white" key={item.id}>
                       <th
                         scope="row"
-                        class="whitespace-nowrap py-4 px-6 font-medium text-gray-900 "
+                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 "
                       >
                         <Link href={`/products/${item.slug}`}>
                           <a className="flex space-x-4">
@@ -100,12 +100,15 @@ const CartPage = () => {
                                 <span className="pr-2 font-bold">Modelo:</span>
                                 <span>{item.productBrand.name}</span>
                               </div>
-                              <OutStock idProduct={item.id} outStock={outStock.products}/>
+                              <OutStock
+                                idProduct={item.id}
+                                outStock={outStock.products}
+                              />
                             </div>
                           </a>
                         </Link>
                       </th>
-                      <td class="py-4 px-6">
+                      <td className="py-4 px-6">
                         {item.hasDiscount ? (
                           <div>
                             <span className="mr-2 text-lg font-semibold text-red-500">
@@ -121,25 +124,25 @@ const CartPage = () => {
                           </span>
                         )}
                       </td>
-                      <td class="py-4 px-6">
+                      <td className="py-4 px-6">
                         <Qty
                           value={item.quantity}
                           changeQty={(current) => changeQty(current, item.id)}
                           adClass="cart-product-quantity"
                         />
                       </td>
-                      <td class="py-4 px-6">
+                      <td className="py-4 px-6">
                         <span className="text-lg font-bold text-gray-900">
                           {currency(
                             item.hasDiscount
                               ? item.totalPriceTax
-                              : item.priceTax,
+                              : item.priceTax
                           )
                             .multiply(item.quantity)
                             .format()}
                         </span>
                       </td>
-                      <td class="py-4 px-6">
+                      <td className="py-4 px-6">
                         <button
                           onClick={() => removeProductInCartStore(item.id)}
                         >
@@ -182,7 +185,7 @@ const CartPage = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default CartPage;
+export default CartPage
