@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 const langMessages = {
-  min: "El campo es requerido"
+  min: 'El campo es requerido',
 }
 
 const ShippingAddressSchema = z.object({
@@ -15,7 +15,7 @@ const ShippingAddressSchema = z.object({
   state: z.string().min(1, { message: langMessages.min }),
   city: z.string().min(1, { message: langMessages.min }),
   province: z.string(),
-  postalCode: z.string().min(1, { message: langMessages.min })
-});
+  postalCode: z.string().min(1, { message: langMessages.min }),
+})
 
-export default ShippingAddressSchema;
+export default ShippingAddressSchema

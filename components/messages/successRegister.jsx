@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import SentEmailIcon from '@/components/icons/mail-sent.svg';
+import Link from 'next/link'
+import SentEmailIcon from '@/components/icons/mail-sent.svg'
 
-const SuccessRegister = ({email}) => {
+const SuccessRegister = ({ email }) => {
   return (
     <div className="mx-auto flex min-h-min w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg  lg:max-w-4xl">
       <div className="w-full px-6 py-8 text-center">
@@ -11,10 +11,11 @@ const SuccessRegister = ({email}) => {
         <h1 className="text-4xl font-semibold text-gray-800">
           Creacion de cuenta correcta
         </h1>
-        <p className='mt-8'>
-          Recibiras un email al correo de <span className='font-bold'>{email}</span> para confirmar tu cuenta y poder acceder. No
-          olvides revisar tu bandeja de correo no desado, si el email no fue
-          recivido.
+        <p className="mt-8">
+          Recibiras un email al correo de{' '}
+          <span className="font-bold">{email}</span> para confirmar tu cuenta y
+          poder acceder. No olvides revisar tu bandeja de correo no desado, si
+          el email no fue recivido.
         </p>
         <div className="mt-8 text-center">
           <Link href="/">
@@ -25,7 +26,7 @@ const SuccessRegister = ({email}) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SuccessRegister;
+export default SuccessRegister

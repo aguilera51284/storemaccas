@@ -1,42 +1,40 @@
-import qs from 'qs';
-import { useRouter } from 'next/router';
-import { dset } from 'dset';
-import delve from 'dlv';
+import qs from 'qs'
+import { useRouter } from 'next/router'
+import { dset } from 'dset'
+import delve from 'dlv'
 
 function ShopSidebarOne(props) {
-  const { toggle = false, tags, carBrands, productBrand } = props;
-  const router = useRouter();
-  const query = qs.parse(router.asPath.split('?')[1]);
+  const { toggle = false, tags, carBrands, productBrand } = props
+  const router = useRouter()
+  const query = qs.parse(router.asPath.split('?')[1])
 
-  function onChangePriceRange(value) {
-    setRange(value);
-  }
+  // function onChangePriceRange(value) {
+  //   setRange(value)
+  // }
 
   function containsAttrInUrl(type, value) {
-    const hasValueInQuery = delve(query, `filters.${type}.slug.$eq`);
-    return hasValueInQuery && hasValueInQuery.includes(value);
+    const hasValueInQuery = delve(query, `filters.${type}.slug.$eq`)
+    return hasValueInQuery && hasValueInQuery.includes(value)
   }
 
   function normalizeArrayValue(value, attr) {
-    let arrayValue = [value];
-    const currentQueries = delve(query, `filters.${attr}.slug.$eq`);
+    let arrayValue = [value]
+    const currentQueries = delve(query, `filters.${attr}.slug.$eq`)
     if (currentQueries) {
-      arrayValue = [...currentQueries, value];
+      arrayValue = [...currentQueries, value]
       if (currentQueries.includes(value)) {
-        arrayValue = arrayValue.filter((item) => item !== value);
+        arrayValue = arrayValue.filter((item) => item !== value)
       }
     }
-    return arrayValue;
+    return arrayValue
   }
 
   function onAttrClick(e, attr, value) {
-    let dQuery = query;
+    let dQuery = query
     dset(dQuery, `filters.${attr}`, {
       slug: { $eq: normalizeArrayValue(value, attr) },
-    });
-    router.push(
-      `${router.pathname}?${qs.stringify(dQuery, { encode: false })}`,
-    );
+    })
+    router.push(`${router.pathname}?${qs.stringify(dQuery, { encode: false })}`)
   }
 
   return (
@@ -47,7 +45,7 @@ function ShopSidebarOne(props) {
           <a
             href={{ pathname: router.pathname, query: { type: query.type } }}
             className="rounded text-xs font-medium text-gray-600 underline"
-            scroll={false}
+            //scroll={false}
           >
             Limpiar
           </a>
@@ -120,7 +118,7 @@ function ShopSidebarOne(props) {
                           checked={
                             containsAttrInUrl(
                               'productBrand',
-                              item.attributes.slug,
+                              item.attributes.slug
                             )
                               ? true
                               : false
@@ -226,7 +224,7 @@ function ShopSidebarOne(props) {
         </div>
       </aside>
     </>
-  );
+  )
 }
 
-export default ShopSidebarOne;
+export default ShopSidebarOne

@@ -1,25 +1,25 @@
-import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials";
-import http from "@/lib/http";
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import http from '@/lib/http'
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      name: "Sign in with Email",
+      name: 'Sign in with Email',
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         // return (
         /**
          * This function is used to define if the user is authenticated or not.
          * If authenticated, the function should return an object contains the user data.
          * If not, the function should return `null`.
          */
-        if (credentials == null) return null;
+        if (credentials == null) return null
         /**
          * credentials is defined in the config above.
          * We can expect it contains two properties: `email` and `password`
@@ -30,13 +30,15 @@ export const authOptions = {
           const result = await http
             .post('auth/local', {
               json: {
-                identifier: credentials.email, /* identifier can be the username, instead of the email */
+                identifier:
+                  credentials.email /* identifier can be the username, instead of the email */,
                 password: credentials.password,
-              }
-            }).json();
+              },
+            })
+            .json()
 
-          const { user, jwt } = result;
-          return { jwt, ...user };
+          const { user, jwt } = result
+          return { jwt, ...user }
 
           // const { user, jwt } =
           //   (await http
@@ -56,7 +58,7 @@ export const authOptions = {
 
           // return { jwt, ...user };
         } catch (error) {
-          console.warn('mmmmm',error);
+          console.warn('mmmmm', error)
           // Sign In Fail
           // return null;
         }
@@ -67,17 +69,17 @@ export const authOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.id = user.id;
-        token.jwt = user.jwt;
-        token.username = user.username; /* ### */
+        token.id = user.id
+        token.jwt = user.jwt
+        token.username = user.username /* ### */
       }
-      return Promise.resolve(token);
+      return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
-      session.id = token.id;
-      session.jwt = token.jwt;
-      session.user.username = token.username; /* ### */
-      return Promise.resolve(session);
+      session.id = token.id
+      session.jwt = token.jwt
+      session.user.username = token.username /* ### */
+      return Promise.resolve(session)
     },
   },
 }

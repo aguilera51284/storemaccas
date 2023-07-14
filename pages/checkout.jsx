@@ -1,7 +1,7 @@
-import Layout from "@/components/layout";
-import dynamic from "next/dynamic";
+import Layout from '@/components/layout'
+import dynamic from 'next/dynamic'
 
-const CheckoutForm  = dynamic(() => import('@/components/checkout'), {
+const CheckoutForm = dynamic(() => import('@/components/checkout'), {
   ssr: false,
 })
 
@@ -53,7 +53,7 @@ const Checkout = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Checkout;
+export default Checkout

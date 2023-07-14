@@ -1,22 +1,22 @@
-import { useSession } from 'next-auth/react';
-import AuthRequired from '@/components/icons/login-required.svg';
-import Link from 'next/link';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import LoginSchema from '@/schema/address';
-import { STATES_MEXICO } from '@/lib/const';
-import useSWR from 'swr';
-import http from '@/lib/http';
-import { serializeCartList } from '@/lib';
-import { useStore } from '@/store';
-import ProductListSkeleton from '@/components/skeletons/productList';
-import SummarySkeleton from '@/components/skeletons/summary';
-import ProductList from '@/components/products/productList';
-import currency from 'currency.js';
+import { useSession } from 'next-auth/react'
+import AuthRequired from '@/components/icons/login-required.svg'
+import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import LoginSchema from '@/schema/address'
+import { STATES_MEXICO } from '@/lib/const'
+import useSWR from 'swr'
+import http from '@/lib/http'
+import { serializeCartList } from '@/lib'
+import { useStore } from '@/store'
+import ProductListSkeleton from '@/components/skeletons/productList'
+import SummarySkeleton from '@/components/skeletons/summary'
+import ProductList from '@/components/products/productList'
+import currency from 'currency.js'
 
 const CheckoutComponent = () => {
-  const cartList = useStore((state) => state['@@cart']);
-  const { data: session } = useSession();
+  const cartList = useStore((state) => state['@@cart'])
+  const { data: session } = useSession()
   const { data, error } = useSWR(
     'summary',
     async () =>
@@ -26,14 +26,12 @@ const CheckoutComponent = () => {
             products: serializeCartList(cartList),
           },
         })
-        .json(),
-  );
+        .json()
+  )
   const {
     register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(LoginSchema) });
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(LoginSchema) })
 
   if (!session) {
     return (
@@ -62,10 +60,10 @@ const CheckoutComponent = () => {
           </Link>
         </div>
       </div>
-    );
+    )
   }
 
-  console.log('----------', data);
+  console.log('----------', data)
 
   return (
     <div className="flex py-12 md:space-x-8">
@@ -76,7 +74,7 @@ const CheckoutComponent = () => {
           </div>
           <form className="mt-12 grid grid-cols-2 gap-8">
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Nombre(s)
               </label>
               <input
@@ -89,7 +87,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Apellidos
               </label>
               <input
@@ -102,7 +100,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Telefono
               </label>
               <input
@@ -115,7 +113,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div className="col-span-2">
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Direccion
               </label>
               <input
@@ -129,7 +127,7 @@ const CheckoutComponent = () => {
             </div>
 
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Numero exterior
               </label>
               <input
@@ -142,7 +140,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Colonia
               </label>
               <input
@@ -155,7 +153,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Estado
               </label>
               <select
@@ -173,7 +171,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Ciudad
               </label>
               <input
@@ -186,7 +184,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Municipio (opcional)
               </label>
               <input
@@ -199,7 +197,7 @@ const CheckoutComponent = () => {
               </p>
             </div>
             <div className="col-span-2">
-              <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Referencias (opcional)
               </label>
               <textarea
@@ -240,19 +238,27 @@ const CheckoutComponent = () => {
                 ))}
               </div>
               <hr />
-              <ul className='py-12'>
-                <li className='flex items-center py-2 text-xl '>
+              <ul className="py-12">
+                <li className="flex items-center py-2 text-xl ">
                   <span>SubTotal:</span>
-                  <span className='ml-auto'>{currency(data.totalPrice).format()}</span>
+                  <span className="ml-auto">
+                    {currency(data.totalPrice).format()}
+                  </span>
                 </li>
-                <li className='flex items-center py-2 text-xl '>
+                <li className="flex items-center py-2 text-xl ">
                   <span>Descuentos:</span>
-                  <span className='ml-auto'>{currency(data.totalDiscounts).format()}</span>
+                  <span className="ml-auto">
+                    {currency(data.totalDiscounts).format()}
+                  </span>
                 </li>
-                <li><hr /></li>
-                <li className='flex items-center py-4 text-2xl font-bold'>
+                <li>
+                  <hr />
+                </li>
+                <li className="flex items-center py-4 text-2xl font-bold">
                   <span>Total:</span>
-                  <span className='ml-auto'>{currency(data.total).format()}</span>
+                  <span className="ml-auto">
+                    {currency(data.total).format()}
+                  </span>
                 </li>
               </ul>
             </>
@@ -260,7 +266,7 @@ const CheckoutComponent = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutComponent;
+export default CheckoutComponent

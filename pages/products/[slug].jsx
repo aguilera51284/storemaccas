@@ -1,20 +1,20 @@
-import Layout from '@/components/layout';
-import http from '@/lib/http';
-import qs from 'qs';
-import { useRouter } from 'next/router';
-import currency from 'currency.js';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
-import snarkdown from 'snarkdown';
-import { filterXSS } from 'xss';
-import ProductGallery from '@/components/partials/product/gallery';
-import ProductRelations from '@/components/partials/product/relations';
-import useSwr from 'swr';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../api/auth/[...nextauth]';
+import Layout from '@/components/layout'
+import http from '@/lib/http'
+import qs from 'qs'
+import { useRouter } from 'next/router'
+import currency from 'currency.js'
+import { ShoppingCartIcon } from '@heroicons/react/24/outline'
+import snarkdown from 'snarkdown'
+import { filterXSS } from 'xss'
+import ProductGallery from '@/components/partials/product/gallery'
+import ProductRelations from '@/components/partials/product/relations'
+import useSwr from 'swr'
+import { unstable_getServerSession } from 'next-auth/next'
+import { authOptions } from '../api/auth/[...nextauth]'
 
 const ProductDetail = ({ product }) => {
-  const router = useRouter();
-  let OR_DATA = [];
+  const router = useRouter()
+  let OR_DATA = []
   if (product) {
     if (product.attributes.productBrand.data) {
       OR_DATA.push({
@@ -23,7 +23,7 @@ const ProductDetail = ({ product }) => {
             $eq: product.attributes.productBrand.data.attributes.slug,
           },
         },
-      });
+      })
     }
     if (product.attributes.carBrand.data) {
       OR_DATA.push({
@@ -32,7 +32,7 @@ const ProductDetail = ({ product }) => {
             $eq: product.attributes.carBrand.data.attributes.slug,
           },
         },
-      });
+      })
     }
   }
   const { data, error } = useSwr(
@@ -52,10 +52,10 @@ const ProductDetail = ({ product }) => {
           },
           {
             encode: process.env.NODE_ENV !== 'production',
-          },
+          }
         )}`
-      : null,
-  );
+      : null
+  )
 
   if (router.isFallback) {
     return (
@@ -88,7 +88,7 @@ const ProductDetail = ({ product }) => {
           </div>
         </div>
       </Layout>
-    );
+    )
   }
 
   return (
@@ -151,7 +151,7 @@ const ProductDetail = ({ product }) => {
             <div className="mt-12 flex items-center ">
               {product.attributes.hasDiscount ? (
                 <div className="inline-flex items-center">
-                  <h3 className="text-3xl font-semibold text-red-500 mr-2">
+                  <h3 className="mr-2 text-3xl font-semibold text-red-500">
                     {currency(product.attributes.totalPriceTax).format()}
                   </h3>
                   <h3 className="text-3xl font-semibold line-through opacity-50">
@@ -201,8 +201,8 @@ const ProductDetail = ({ product }) => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
 // export async function getStaticPaths() {
 //   const articlesRes = await http.get('products', { fields: ['slug'] }).json();
@@ -218,17 +218,13 @@ const ProductDetail = ({ product }) => {
 // }
 
 export async function getServerSideProps({ params, ...ctx }) {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions,
-  );
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions)
 
   const extended = http.extend({
     headers: {
       ...(session ? { Authorization: `Bearer ${session.jwt}` } : {}),
     },
-  });
+  })
 
   const articlesRes = await extended
     .get(
@@ -238,14 +234,14 @@ export async function getServerSideProps({ params, ...ctx }) {
         },
         populate: ['gallery', 'carBrand', 'productBrand'],
         select: ['carBrand.name'],
-      })}`,
+      })}`
     )
-    .json();
-  console.log(articlesRes.data[0]);
+    .json()
+  console.log(articlesRes.data[0])
   return {
     props: { product: articlesRes.data[0] },
     //revalidate: 60,
-  };
+  }
 }
 
-export default ProductDetail;
+export default ProductDetail

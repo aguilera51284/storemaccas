@@ -1,7 +1,7 @@
-import { Fragment } from 'preact';
-import { Menu, Transition } from '@headlessui/react';
-import { UserIcon } from '@heroicons/react/20/solid';
-import { signOut } from 'next-auth/react';
+import { Fragment } from 'preact'
+import { Menu, Transition } from '@headlessui/react'
+import { UserIcon } from '@heroicons/react/20/solid'
+import { signOut } from 'next-auth/react'
 
 export default function UserMenu() {
   return (
@@ -49,5 +49,5 @@ export default function UserMenu() {
         </Menu.Items>
       </Transition>
     </Menu>
-  );
+  )
 }

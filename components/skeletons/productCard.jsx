@@ -27,7 +27,7 @@ const SkeletonProductCard = () => {
       </div>
       <span className="sr-only">Loading...</span>
     </div>
-  );
-};
+  )
+}
 
-export default SkeletonProductCard;
+export default SkeletonProductCard

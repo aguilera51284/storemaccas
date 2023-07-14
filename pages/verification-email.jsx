@@ -1,12 +1,12 @@
-import Layout from '@/components/layout';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import Layout from '@/components/layout'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
 const VerificationEmail = () => {
-  const router = useRouter();
-  const { confirmation } = router.query;
+  const router = useRouter()
+  const { confirmation } = router.query
   const { data, error } = useSWR(
     confirmation
       ? `auth/email-confirmation?confirmation=${confirmation}`
@@ -15,16 +15,16 @@ const VerificationEmail = () => {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    },
-  );
+    }
+  )
 
   console.log(data, error)
 
   return (
     <Layout>
       <div className="bg-slate-100 py-12 md:py-24">
-        <div class="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
-          <div class="p-8">
+        <div className="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
+          <div className="p-8">
             <Link href="/">
               <Image
                 src="/images/logo.jpeg"
@@ -77,7 +77,7 @@ const VerificationEmail = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default VerificationEmail;
+export default VerificationEmail

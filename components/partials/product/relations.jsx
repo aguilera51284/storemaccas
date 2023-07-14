@@ -1,8 +1,8 @@
-import SkeletonProductCard from '@/components/skeletons/productCard';
-import { OPTIONS_SPLIDE } from '@/lib/const';
-import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import ProductOne from '@/components/products/product-one';
+import SkeletonProductCard from '@/components/skeletons/productCard'
+import { OPTIONS_SPLIDE } from '@/lib/const'
+import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
+import ProductOne from '@/components/products/product-one'
 
 const ProductRelations = ({ isLoading, products, title }) => {
   return (
@@ -42,11 +42,11 @@ const ProductRelations = ({ isLoading, products, title }) => {
         </Splide>
       )}
     </div>
-  );
-};
+  )
+}
 
 ProductRelations.defaultProps = {
   title: 'Productos relacionados',
-};
+}
 
-export default ProductRelations;
+export default ProductRelations

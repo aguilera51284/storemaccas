@@ -1,32 +1,32 @@
-import { useState, useEffect } from 'preact/hooks';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'preact/hooks'
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 
 function Qty(props) {
-  const { value = 1, adClass = '', max = 10000, changeQty } = props;
-  const [current, setCurrent] = useState(value);
+  const { value = 1, max = 10000, changeQty } = props
+  const [current, setCurrent] = useState(value)
 
   useEffect(() => {
-    setCurrent(value);
-  }, [value]);
+    setCurrent(value)
+  }, [value])
 
   useEffect(() => {
-    changeQty && changeQty(current);
-  }, [current]);
+    changeQty && changeQty(current)
+  }, [current])
 
   function increment() {
-    if (max <= 0 || current >= max) return;
-    setCurrent(current + 1);
+    if (max <= 0 || current >= max) return
+    setCurrent(current + 1)
   }
 
   function decrement() {
     if (current > 1) {
-      setCurrent(current - 1);
+      setCurrent(current - 1)
     }
   }
 
   function changeCurrent(e) {
     if (parseInt(e.currentTarget.value) < max) {
-      setCurrent(parseInt(e.currentTarget.value));
+      setCurrent(parseInt(e.currentTarget.value))
     }
   }
 
@@ -62,7 +62,7 @@ function Qty(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Qty;
+export default Qty

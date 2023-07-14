@@ -1,17 +1,17 @@
-import { createRef, useEffect } from 'react';
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import Image from 'next/image';
-import { getStrapiMedia } from '@/lib/strapi';
+import { createRef, useEffect } from 'react'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
+import Image from 'next/image'
+import { getStrapiMedia } from '@/lib/strapi'
 
 const ProductGallery = ({ product }) => {
-  const mainSlide = createRef(null);
-  const thumbnailSlide = createRef(null);
+  const mainSlide = createRef(null)
+  const thumbnailSlide = createRef(null)
 
   useEffect(() => {
     if (mainSlide.current && thumbnailSlide.current) {
-      mainSlide.current.sync(thumbnailSlide.current.splide);
+      mainSlide.current.sync(thumbnailSlide.current.splide)
     }
-  }, [mainSlide,thumbnailSlide ]);
+  }, [mainSlide, thumbnailSlide])
 
   return (
     <div>
@@ -66,7 +66,7 @@ const ProductGallery = ({ product }) => {
         ))}
       </Splide>
     </div>
-  );
-};
+  )
+}
 
-export default ProductGallery;
+export default ProductGallery

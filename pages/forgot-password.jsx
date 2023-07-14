@@ -1,22 +1,22 @@
-import Layout from '@/components/layout';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import Layout from '@/components/layout'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useForm } from 'react-hook-form'
 
 const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => console.log(data)
 
   return (
     <Layout>
       <div className="bg-slate-100 py-12 md:py-24">
-        <div class="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
-          <div class="p-8">
+        <div className="mx-auto w-full max-w-md overflow-hidden rounded-lg bg-white shadow-md ">
+          <div className="p-8">
             <Link href="/">
               <Image
                 src="/images/logo.jpeg"
@@ -25,13 +25,13 @@ const ForgotPassword = () => {
                 alt="Maccas"
               />
             </Link>
-            <h3 class="mt-1 text-center text-xl font-medium text-gray-600 ">
+            <h3 className="mt-1 text-center text-xl font-medium text-gray-600 ">
               Recuperacion de cuenta
             </h3>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div class="mt-4">
-                <label class="mb-2 block text-sm font-medium text-gray-600 ">
+              <div className="mt-4">
+                <label className="mb-2 block text-sm font-medium text-gray-600 ">
                   Email
                 </label>
                 <input
@@ -43,9 +43,9 @@ const ForgotPassword = () => {
                   {errors.email?.message || ''}
                 </p>
               </div>
-              <div class="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between">
                 <button
-                  class="transform w-full rounded bg-primary-700 px-4 py-2 leading-5 text-white transition-colors duration-300 hover:bg-primary-600 focus:outline-none"
+                  className="w-full transform rounded bg-primary-700 px-4 py-2 leading-5 text-white transition-colors duration-300 hover:bg-primary-600 focus:outline-none"
                   type="button"
                 >
                   Recuperar
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

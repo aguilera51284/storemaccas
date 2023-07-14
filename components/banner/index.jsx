@@ -1,5 +1,5 @@
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import Image from 'next/image';
+import { Splide, SplideSlide } from '@splidejs/react-splide'
+import Image from 'next/image'
 
 const Banner = ({ slides }) => {
   if (slides.length <= 0) {
@@ -11,7 +11,7 @@ const Banner = ({ slides }) => {
           </h3>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -27,17 +27,16 @@ const Banner = ({ slides }) => {
               alt={slide.attributes.name}
               layout="fill"
               src={slide.attributes.cover.data.attributes.url}
-
             />
           </SplideSlide>
         ))}
       </Splide>
     </div>
-  );
-};
+  )
+}
 
 Banner.defaultProps = {
   slides: [],
-};
+}
 
-export default Banner;
+export default Banner

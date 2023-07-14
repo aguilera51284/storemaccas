@@ -1,11 +1,11 @@
-import { useState } from 'preact/hooks'
+//import { useState } from 'preact/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
   MagnifyingGlassIcon,
   PhoneIcon,
   ShoppingCartIcon,
-  UserIcon,
+  //UserIcon,
 } from '@heroicons/react/24/outline'
 import { useStore } from '@/store'
 import { cartQtyTotal, isSSR } from '@/lib'
@@ -13,7 +13,7 @@ import { useSession } from 'next-auth/react'
 import UserMenu from './userMenu'
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  //const [isMenuOpen, setIsMenuOpen] = useState(false)
   const cartlist = useStore((state) => state['@@cart'])
   const { data: session } = useSession()
 

@@ -1,19 +1,19 @@
-import { ShoppingCartIcon } from '@heroicons/react/24/solid';
-import { getStrapiMedia } from '@/lib/strapi';
-import Image from 'next/image';
-import currency from 'currency.js';
-import Link from 'next/link';
-import { useStore } from '@/store';
-import { toast } from 'react-hot-toast';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid'
+import { getStrapiMedia } from '@/lib/strapi'
+import Image from 'next/image'
+import currency from 'currency.js'
+import Link from 'next/link'
+import { useStore } from '@/store'
+import { toast } from 'react-hot-toast'
 
 const ProductOne = ({ product }) => {
-  const addToCart = useStore((state) => state.addProductToCart);
+  const addToCart = useStore((state) => state.addProductToCart)
 
   const onCartClick = (e) => {
-    e.preventDefault();
-    addToCart(product, 1);
-    toast.success('Producto agregado al carrito');
-  };
+    e.preventDefault()
+    addToCart(product, 1)
+    toast.success('Producto agregado al carrito')
+  }
 
   return (
     <article className="border border-gray-300">
@@ -51,7 +51,7 @@ const ProductOne = ({ product }) => {
         <div className="mt-6 flex items-center uppercase">
           {product.attributes.hasDiscount ? (
             <div>
-              <span className="text-lg font-semibold text-red-500 mr-2">
+              <span className="mr-2 text-lg font-semibold text-red-500">
                 {currency(product.attributes.totalPriceTax).format()}
               </span>
               <span className="text-lg font-semibold line-through opacity-50">
@@ -72,7 +72,7 @@ const ProductOne = ({ product }) => {
         </div>
       </div>
     </article>
-  );
-};
+  )
+}
 
-export default ProductOne;
+export default ProductOne

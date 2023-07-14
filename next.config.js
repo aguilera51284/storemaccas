@@ -1,4 +1,4 @@
-const withPreact = require('next-plugin-preact');
+const withPreact = require('next-plugin-preact')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -13,7 +13,7 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   experimental: {
-    esmExternals: false
+    esmExternals: false,
   },
   images: {
     domains: ['maccas.s3.us-east-2.amazonaws.com'],

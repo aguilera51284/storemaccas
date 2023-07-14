@@ -1,12 +1,12 @@
-import { useLayoutEffect } from 'react';
-import create from 'zustand';
-import createContext from 'zustand/context';
-import { devtools, persist } from 'zustand/middleware';
-import { pickCart } from '@/lib';
-import { dset } from 'dset';
-import { klona } from 'klona';
+import { useLayoutEffect } from 'react'
+import create from 'zustand'
+import createContext from 'zustand/context'
+import { devtools, persist } from 'zustand/middleware'
+import { pickCart } from '@/lib'
+import { dset } from 'dset'
+import { klona } from 'klona'
 
-let store;
+let store
 
 const getDefaultInitialState = () => ({
   '@@cart': [],
@@ -60,16 +60,16 @@ const getDefaultInitialState = () => ({
   },
   '@@outStock': {
     show: false,
-    products: []
-  }
-});
+    products: [],
+  },
+})
 
-const zustandContext = createContext();
+const zustandContext = createContext()
 
-export const Provider = zustandContext.Provider;
+export const Provider = zustandContext.Provider
 // An example of how to get types
 /** @type {import('zustand/index').UseStore<typeof initialState>} */
-export const useStore = zustandContext.useStore;
+export const useStore = zustandContext.useStore
 
 export const initializeStore = (preloadedState = {}) => {
   return create(
@@ -81,24 +81,24 @@ export const initializeStore = (preloadedState = {}) => {
           set({
             lastUpdate,
             light: !!light,
-          });
+          })
         },
         addProductToCart: (product, quantity = 1) => {
-          let actualCart = klona(get());
+          let actualCart = klona(get())
           const indexCart = actualCart['@@cart'].findIndex(
-            (p) => p.id === product.id,
-          );
+            (p) => p.id === product.id
+          )
           if (indexCart !== -1) {
-            let qty = actualCart['@@cart'][indexCart].quantity;
+            let qty = actualCart['@@cart'][indexCart].quantity
             if (quantity >= 1) {
-              qty = actualCart['@@cart'][indexCart].quantity + quantity;
+              qty = actualCart['@@cart'][indexCart].quantity + quantity
             }
-            dset(actualCart, `@@cart.${indexCart}.quantity`, qty);
+            dset(actualCart, `@@cart.${indexCart}.quantity`, qty)
             set(
               { ['@@cart']: actualCart['@@cart'] },
               false,
-              'cart/addItemToCart',
-            );
+              'cart/addItemToCart'
+            )
           } else {
             set(
               {
@@ -108,64 +108,65 @@ export const initializeStore = (preloadedState = {}) => {
                 ],
               },
               false,
-              'cart/addFirstItemToCart',
-            );
+              'cart/addFirstItemToCart'
+            )
           }
         },
         deleteItemCart: (id) => {
-          let actualCart = klona(get());
+          let actualCart = klona(get())
           const filterCart = actualCart['@@cart'].filter(
-            (item) => id !== item.id,
-          );
-          set({ ['@@cart']: filterCart }, false, 'cart/deteleItem');
+            (item) => id !== item.id
+          )
+          set({ ['@@cart']: filterCart }, false, 'cart/deteleItem')
         },
         updateCartItems: (cartList = []) => {
-          let actualCart = klona(get());
+          let actualCart = klona(get())
           if (Array.isArray(cartList)) {
             cartList.forEach((item) => {
               const indexItem = actualCart['@@cart'].findIndex(
-                (p) => p.id === item.id,
-              );
+                (p) => p.id === item.id
+              )
               console.log(
-                `indexItem: ${indexItem} cantidad: ${item.quantity}, ID:${item.id}`,
-              );
+                `indexItem: ${indexItem} cantidad: ${item.quantity}, ID:${item.id}`
+              )
               if (indexItem !== -1) {
-                dset(actualCart, `@@cart.${indexItem}.quantity`, item.quantity);
+                dset(actualCart, `@@cart.${indexItem}.quantity`, item.quantity)
               }
-            });
+            })
           }
-          set({ ['@@cart']: actualCart['@@cart'] }, false, 'cart/updateItems');
+          set({ ['@@cart']: actualCart['@@cart'] }, false, 'cart/updateItems')
         },
-        addOutStockItems: (data, visible) => set({ '@@outStock': { products: data, show: visible } }),
+        addOutStockItems: (data, visible) =>
+          set({ '@@outStock': { products: data, show: visible } }),
         /**
          * CHECKOUT ACTIONS
          */
         toggleStepCheckout: (step) => {
-          let actualCart = klona(get());
+          let actualCart = klona(get())
           dset(
             actualCart,
             `@@checkout.steps.${step}.active`,
-            !actualCart['@@checkout'].steps[step].active,
-          );
+            !actualCart['@@checkout'].steps[step].active
+          )
           set(
             { ['@@checkout']: actualCart['@@checkout'] },
             false,
-            'checkout/toggleStep',
-          );
+            'checkout/toggleStep'
+          )
         },
         setStepCheckout: (currentStep, nextStep, data) => {
-          let cloneState = klona(get());
-          dset(cloneState, `@@checkout.${currentStep}`, data);
-          dset(cloneState, `@@checkout.steps.${currentStep}.completed`, true);
-          dset(cloneState, `@@checkout.steps.${nextStep}.active`, true);
+          let cloneState = klona(get())
+          dset(cloneState, `@@checkout.${currentStep}`, data)
+          dset(cloneState, `@@checkout.steps.${currentStep}.completed`, true)
+          dset(cloneState, `@@checkout.steps.${nextStep}.active`, true)
           set(
             { ['@@checkout']: cloneState['@@checkout'] },
             false,
-            'checkout/setCustomer',
-          );
+            'checkout/setCustomer'
+          )
         },
         setClientSecret: (clientSecret, orderReference) => {
-          let cloneState = klona(get());
+          let cloneState = klona(get())
           set(
             {
               ['@@checkout']: {
@@ -175,28 +176,28 @@ export const initializeStore = (preloadedState = {}) => {
               },
             },
             false,
-            'checkout/setClientSecret',
-          );
+            'checkout/setClientSecret'
+          )
         },
         emptyCheckoutAndCart: () => {
-          set({ ...getDefaultInitialState() }, false, 'checkout/empty');
+          set({ ...getDefaultInitialState() }, false, 'checkout/empty')
         },
-      })),
-    ),
-  );
-};
+      }))
+    )
+  )
+}
 
 export function useCreateStore(serverInitialState) {
   // Server side code: For SSR & SSG, always use a new store.
   if (typeof window === 'undefined') {
-    return () => initializeStore(serverInitialState);
+    return () => initializeStore(serverInitialState)
   }
   // End of server side code
 
   // Client side code:
   // Next.js always re-uses same store regardless of whether page is a SSR or SSG or CSR type.
-  const isReusingStore = Boolean(store);
-  store = store ?? initializeStore(serverInitialState);
+  const isReusingStore = Boolean(store)
+  store = store ?? initializeStore(serverInitialState)
   // When next.js re-renders _app while re-using an older store, then replace current state with
   // the new state (in the next render cycle).
   // (Why next render cycle? Because react cannot re-render while a render is already in progress.
@@ -217,10 +218,10 @@ export function useCreateStore(serverInitialState) {
           // but reset all other properties.
           ...serverInitialState,
         },
-        true, // replace states, rather than shallow merging
-      );
+        true // replace states, rather than shallow merging
+      )
     }
-  });
+  })
 
-  return () => store;
+  return () => store
 }

@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { getStrapiMedia } from '@/lib/strapi';
-import currency from 'currency.js';
+import Link from 'next/link'
+import Image from 'next/image'
+import { getStrapiMedia } from '@/lib/strapi'
+import currency from 'currency.js'
 
 const ProductList = ({ product }) => {
   return (
-    <div className="flex space-x-8 mb-8">
+    <div className="mb-8 flex space-x-8">
       <figure className="relative h-20 w-20 flex-shrink-0">
         <Image
           src={
@@ -29,12 +29,14 @@ const ProductList = ({ product }) => {
                 {`${product.productBrand.name} ${product.year}`}
               </span>
             )}
-            <span className='mt-2 font-medium text-gray-800 text-lg'>{`${product.quantity}x${currency(product.totalPrice).format()} `}</span>
+            <span className="mt-2 text-lg font-medium text-gray-800">{`${
+              product.quantity
+            }x${currency(product.totalPrice).format()} `}</span>
           </a>
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductList;
+export default ProductList

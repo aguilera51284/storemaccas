@@ -1,12 +1,12 @@
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import ProductOne from '@/components/products/product-one';
-import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
-import { OPTIONS_SPLIDE } from '@/lib/const';
-import useSWR from 'swr';
-import SkeletonProductCard from '@/components/skeletons/productCard';
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
+import ProductOne from '@/components/products/product-one'
+import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide'
+import { OPTIONS_SPLIDE } from '@/lib/const'
+import useSWR from 'swr'
+import SkeletonProductCard from '@/components/skeletons/productCard'
 
-const SlidesPrducts = ({ title, products, url }) => {
-  const { data, error } = useSWR(url);
+const SlidesPrducts = ({ title, url }) => {
+  const { data, error } = useSWR(url)
 
   if (!data && !error) {
     return (
@@ -21,9 +21,8 @@ const SlidesPrducts = ({ title, products, url }) => {
             ))}
         </div>
       </div>
-    );
+    )
   }
-
 
   return (
     <div className="container relative my-12">
@@ -53,12 +52,12 @@ const SlidesPrducts = ({ title, products, url }) => {
         </SplideTrack>
       </Splide>
     </div>
-  );
-};
+  )
+}
 
 SlidesPrducts.defaultProps = {
   title: 'Productos',
   products: [],
-};
+}
 
-export default SlidesPrducts;
+export default SlidesPrducts

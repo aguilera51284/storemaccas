@@ -1,19 +1,19 @@
-import { useState } from 'preact/hooks';
-import Layout from '@/components/layout';
-import ShopSidebarOne from '@/components/sidebar';
-import http from '@/lib/http';
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
-import SkeletonProductCard from '@/components/skeletons/productCard';
-import ProductOne from '@/components/products/product-one';
-import qs from 'qs';
+import { useState } from 'preact/hooks'
+import Layout from '@/components/layout'
+import ShopSidebarOne from '@/components/sidebar'
+import http from '@/lib/http'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
+import SkeletonProductCard from '@/components/skeletons/productCard'
+import ProductOne from '@/components/products/product-one'
+import qs from 'qs'
 
 const Catalog = ({ tags, carBrands, productBrand }) => {
-  const router = useRouter();
-  const query = qs.parse(router.asPath.split('?')[1]);
-  const [firstLoading, setFirstLoading] = useState(false);
-  const [perPage, setPerPage] = useState(10);
-  const [toggle, setToggle] = useState(false);
+  const router = useRouter()
+  const query = qs.parse(router.asPath.split('?')[1])
+  //const [firstLoading, setFirstLoading] = useState(false)
+  const [perPage] = useState(10)
+  //const [toggle, setToggle] = useState(false)
 
   const { data: products, error } = useSWR(
     `products?${qs.stringify(
@@ -25,22 +25,22 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
         },
         sort: query.sort,
       },
-      { encode: false },
-    )}`,
-  );
-  const loading = !products && !error;
-  const totalCount = products && products.meta.pagination.total;
+      { encode: false }
+    )}`
+  )
+  const loading = !products && !error
+  const totalCount = products && products.meta.pagination.total
 
   function onSortByChange(e) {
-    let queryObject = router.query;
-    let url = router.pathname.replace('[type]', query.type) + '?';
+    let queryObject = router.query
+    let url = router.pathname.replace('[type]', query.type) + '?'
     for (let key in queryObject) {
       if (key !== 'type' && key !== 'sort') {
-        url += key + '=' + queryObject[key] + '&';
+        url += key + '=' + queryObject[key] + '&'
       }
     }
 
-    router.push(url + 'sort=' + e.target.value);
+    router.push(url + 'sort=' + e.target.value)
   }
 
   return (
@@ -142,34 +142,34 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
         </div>
       </>
     </Layout>
-  );
-};
+  )
+}
 
 export async function getServerSideProps(context) {
-  const { req, res } = context;
+  const { res } = context
   const getCarBrands = http
     .get('car-brands?pagination%5Blimit%5D=-1&populate[]=thumbnail')
-    .json();
+    .json()
 
   const getProductBrand = http
     .get('product-brands?pagination%5Blimit%5D=-1&populate[]=thumbnail')
-    .json();
+    .json()
 
   const getTags = http
     .get(
-      'tags?pagination%5Blimit%5D=-1&populate[]=thumbnail&filters%5BvisibleInSearch%5D%5B%24eq%5D=true',
+      'tags?pagination%5Blimit%5D=-1&populate[]=thumbnail&filters%5BvisibleInSearch%5D%5B%24eq%5D=true'
     )
-    .json();
+    .json()
   const [carBrands, tags, productBrand] = await Promise.all([
     getCarBrands,
     getTags,
     getProductBrand,
-  ]);
+  ])
 
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59',
-  );
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
 
   return {
     props: {
@@ -177,7 +177,7 @@ export async function getServerSideProps(context) {
       carBrands,
       tags,
     }, // will be passed to the page component as props
-  };
+  }
 }
 
-export default Catalog;
+export default Catalog

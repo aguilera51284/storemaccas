@@ -1,5 +1,5 @@
-import FastNewsLatterIcon from '@/components/icons/send-mail.svg';
-import { EnvelopeIcon } from '@heroicons/react/24/outline';
+import FastNewsLatterIcon from '@/components/icons/send-mail.svg'
+import { EnvelopeIcon } from '@heroicons/react/24/outline'
 
 const NewsLatter = () => {
   return (
@@ -18,7 +18,7 @@ const NewsLatter = () => {
           </div>
           <div className="inline-flex w-full items-center space-x-6 md:w-1/2">
             <form onSubmit={(e) => e.preventDefault()} className="w-full">
-              <div className='flex items-stretch w-full '>
+              <div className="flex w-full items-stretch ">
                 <div className="inline-flex w-full items-center rounded-md border border-gray-600 px-2">
                   <EnvelopeIcon className="h-7 w-7 text-gray-200" />
                   <input
@@ -28,14 +28,16 @@ const NewsLatter = () => {
                     className="ml-3 w-full bg-transparent p-1 text-gray-200 outline-none"
                   />
                 </div>
-                <button className="bg-accent-500 flex-shrink-0 text-white uppercase -ml-2 rounded-r-md  py-4 px-6">Enviar</button>
+                <button className="-ml-2 flex-shrink-0 rounded-r-md bg-accent-500 py-4 px-6  uppercase text-white">
+                  Enviar
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NewsLatter;
+export default NewsLatter

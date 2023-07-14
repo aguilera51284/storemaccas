@@ -1,21 +1,19 @@
-import Link from 'next/link';
-import Layout from '@/components/layout';
-import http from '@/lib/http';
-import Banner from '@/components/banner';
-import SlidesPrducts from '@/components/partials/collections/slidesProducts';
+import Link from 'next/link'
+import Layout from '@/components/layout'
+import http from '@/lib/http'
+import Banner from '@/components/banner'
+import SlidesPrducts from '@/components/partials/collections/slidesProducts'
 import {
   getTagsForHome,
   getTopProducts,
   slidesByPosition,
-  getMostSelling
-} from '@/lib/queries';
-import Image from 'next/image';
-import { getStrapiMedia } from '@/lib/strapi';
-import NewsLetterForm  from '@/components/partials/newsletter';
+  getMostSelling,
+} from '@/lib/queries'
+import Image from 'next/image'
+import { getStrapiMedia } from '@/lib/strapi'
+import NewsLetterForm from '@/components/partials/newsletter'
 
-
-
-export default function Home({ homeBanner, tagsHome, mostSelling }) {
+export default function Home({ homeBanner, tagsHome }) {
   return (
     <Layout>
       {/* Main Banner */}
@@ -62,22 +60,25 @@ export default function Home({ homeBanner, tagsHome, mostSelling }) {
       {/* NewsLetterForm */}
       <NewsLetterForm />
       {/** Most selling */}
-      <SlidesPrducts url={`products?${getMostSelling}`} title="Productos mas vendidos" />
+      <SlidesPrducts
+        url={`products?${getMostSelling}`}
+        title="Productos mas vendidos"
+      />
     </Layout>
-  );
+  )
 }
 
 export async function getStaticProps() {
   const homeBanner = await http
     .get(`banners?${slidesByPosition('HOME')}`)
-    .json();
-  const tagsHome = await http.get(`tags?${getTagsForHome}`).json();
+    .json()
+  const tagsHome = await http.get(`tags?${getTagsForHome}`).json()
 
   return {
     props: {
       homeBanner: homeBanner.data[0].attributes.slides,
-      tagsHome: tagsHome.data
+      tagsHome: tagsHome.data,
     },
-    revalidate: 360
-  };
+    revalidate: 360,
+  }
 }
