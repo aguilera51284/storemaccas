@@ -8,7 +8,7 @@ const CheckoutForm = dynamic(() => import('@/components/checkout'), {
 })
 
 const Checkout = () => {
-  const [showSucess, setSuccess] = useState(true)
+  const [showSucess, setSuccess] = useState(false)
   if (showSucess) {
     return (
       <Layout>
