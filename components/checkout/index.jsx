@@ -13,11 +13,12 @@ import ProductListSkeleton from '@/components/skeletons/productList'
 import SummarySkeleton from '@/components/skeletons/summary'
 import ProductList from '@/components/products/productList'
 import currency from 'currency.js'
+import { toast } from 'react-hot-toast'
 
-const CheckoutComponent = () => {
+const CheckoutComponent = ({ setSuccess }) => {
   const cartList = useStore((state) => state['@@cart'])
   const { data: session } = useSession()
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     'summary',
     async () =>
       await http
@@ -28,9 +29,30 @@ const CheckoutComponent = () => {
         })
         .json()
   )
+
+  const postOrderCharges = async (values) => {
+    try {
+      await http.post('charges', {
+        json: {
+          products: serializeCartList(cartList),
+          shippingAddress: values,
+        },
+      })
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth', // Opcional, hace que el scroll sea suave en navegadores modernos
+      })
+      setSuccess(true)
+    } catch (error) {
+      toast.error('Error al crear la orden. Intentelo mas tarde.')
+    }
+  }
+
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    handleSubmit,
   } = useForm({ resolver: zodResolver(LoginSchema) })
 
   if (!session) {
@@ -63,8 +85,6 @@ const CheckoutComponent = () => {
     )
   }
 
-  console.log('----------', data)
-
   return (
     <div className="flex py-12 md:space-x-8">
       <div className="w-2/3">
@@ -72,7 +92,10 @@ const CheckoutComponent = () => {
           <div className=" block border-b border-gray-300 pb-4 text-2xl font-bold">
             Datos de envio
           </div>
-          <form className="mt-12 grid grid-cols-2 gap-8">
+          <form
+            className="mt-12 grid grid-cols-2 gap-8"
+            onSubmit={handleSubmit(postOrderCharges)}
+          >
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-600 ">
                 Nombre(s)
@@ -119,10 +142,10 @@ const CheckoutComponent = () => {
               <input
                 className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
                 type="text"
-                {...register('phone')}
+                {...register('address')}
               />
               <p className="mt-2 text-sm text-red-500 ">
-                {errors.phone?.message || ''}
+                {errors.address?.message || ''}
               </p>
             </div>
 
@@ -150,6 +173,19 @@ const CheckoutComponent = () => {
               />
               <p className="mt-2 text-sm text-red-500 ">
                 {errors.colony?.message || ''}
+              </p>
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-600 ">
+                Codigo Postal
+              </label>
+              <input
+                className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
+                type="text"
+                {...register('postalCode')}
+              />
+              <p className="mt-2 text-sm text-red-500 ">
+                {errors.postalCode?.message || ''}
               </p>
             </div>
             <div>
@@ -202,14 +238,17 @@ const CheckoutComponent = () => {
               </label>
               <textarea
                 className="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
-                {...register('address2')}
+                {...register('reference')}
               ></textarea>
               <p className="mt-2 text-sm text-red-500 ">
-                {errors.address2?.message || ''}
+                {errors.reference?.message || ''}
               </p>
             </div>
             <div className="col-span-2 text-right">
-              <button className="rounded-md bg-accent-500 px-8 py-2 font-semibold uppercase text-white">
+              <button
+                disabled={isSubmitting}
+                className="rounded-md  bg-accent-500 px-8 py-2 font-semibold uppercase text-white disabled:opacity-50"
+              >
                 Crear orden
               </button>
             </div>
@@ -221,7 +260,7 @@ const CheckoutComponent = () => {
           <p className="border-b border-gray-300 pb-2 text-2xl font-bold">
             Sumario
           </p>
-          {!data && !error ? (
+          {!data ? (
             <>
               <div className="mt-12 max-h-80 w-full overflow-y-auto">
                 <ProductListSkeleton />
@@ -242,7 +281,7 @@ const CheckoutComponent = () => {
                 <li className="flex items-center py-2 text-xl ">
                   <span>SubTotal:</span>
                   <span className="ml-auto">
-                    {currency(data.totalPrice).format()}
+                    {currency(data.subTotal).format()}
                   </span>
                 </li>
                 <li className="flex items-center py-2 text-xl ">
