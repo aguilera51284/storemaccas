@@ -35,7 +35,7 @@ function Contact() {
 
   const onSubmit = async (data) => {
     try {
-      await http.post('contacts', { json: { data } })
+      await http.post('conctacts', { json: { data } })
       reset()
       toast.success('Gracias por contactarnos', { position: 'bottom-center' })
     } catch (error) {
@@ -163,7 +163,6 @@ function Contact() {
               <ReCAPTCHA
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY} // Replace with your actual reCAPTCHA site key
                 onChange={(value) => setValue('recaptchaToken', value)}
-                allowAnyHost
               />
               {errors.recaptchaToken && (
                 <p className="text-xs text-red-500">
