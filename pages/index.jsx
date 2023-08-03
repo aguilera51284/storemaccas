@@ -12,6 +12,7 @@ import {
 import Image from 'next/image'
 import { getStrapiMedia } from '@/lib/strapi'
 import NewsLetterForm from '@/components/partials/newsletter'
+import qs from 'qs'
 
 export default function Home({ homeBanner, tagsHome }) {
   return (
@@ -38,21 +39,33 @@ export default function Home({ homeBanner, tagsHome }) {
               key={tag.id}
               className="rounded bg-gray-100 transition-all duration-100 ease-out hover:bg-accent-600 hover:text-white"
             >
-              <div className="flex items-center space-x-8 px-6 py-4">
-                <div className=" w-1/2">
-                  <span className="text-xl font-medium uppercase">
-                    {tag.attributes.description}
-                  </span>
-                </div>
-                <div className="w-1/2 text-center">
-                  <Image
-                    src={getStrapiMedia(tag.attributes.thumbnail)}
-                    width={120}
-                    height={120}
-                    alt={tag.attributes.name}
-                  />
-                </div>
-              </div>
+              <Link
+                href={`/catalog?${qs.stringify({
+                  filters: {
+                    tags: {
+                      slug: {
+                        $eq: tag.attributes.slug,
+                      },
+                    },
+                  },
+                })}`}
+              >
+                <a className="flex items-center space-x-8 px-6 py-4">
+                  <div className=" w-1/2">
+                    <span className="text-xl font-medium uppercase">
+                      {tag.attributes.name}
+                    </span>
+                  </div>
+                  <div className="w-1/2 text-center">
+                    <Image
+                      src={getStrapiMedia(tag.attributes.thumbnail)}
+                      width={120}
+                      height={120}
+                      alt={tag.attributes.name}
+                    />
+                  </div>
+                </a>
+              </Link>
             </div>
           ))}
         </div>

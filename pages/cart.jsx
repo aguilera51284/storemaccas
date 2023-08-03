@@ -95,7 +95,7 @@ const CartPage = () => {
                               />
                             </figure>
                             <div>
-                              <h3 className="text-sm font-semibold">{`${item.code} - ${item.equivalence}`}</h3>
+                              <h3 className="text-sm font-semibold">{`${item.code} - ${item.description}`}</h3>
                               <div className="text-gray-500">
                                 <span className="pr-2 font-bold">Modelo:</span>
                                 <span>{item.productBrand.name}</span>

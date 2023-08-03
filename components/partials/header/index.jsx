@@ -1,4 +1,4 @@
-//import { useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -11,11 +11,40 @@ import { useStore } from '@/store'
 import { cartQtyTotal, isSSR } from '@/lib'
 import { useSession } from 'next-auth/react'
 import UserMenu from './userMenu'
+import { useRouter } from 'next/router'
+import qs from 'qs'
 
 const Header = () => {
   //const [isMenuOpen, setIsMenuOpen] = useState(false)
   const cartlist = useStore((state) => state['@@cart'])
   const { data: session } = useSession()
+  const router = useRouter()
+  const [input, setInput] = useState()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    router.push(
+      `/catalog?${qs.stringify(
+        {
+          filters: {
+            $or: [
+              {
+                description: {
+                  $containsi: input,
+                },
+              },
+              {
+                code: {
+                  $containsi: input,
+                },
+              },
+            ],
+          },
+        },
+        { encode: false }
+      )}`
+    )
+  }
 
   return (
     <header className="w-full  bg-white shadow-md">
@@ -36,16 +65,21 @@ const Header = () => {
             </a>
           </Link>
           <div className="hidden flex-1 px-16 md:block">
-            <div className="relative max-w-sm">
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+            <form className="relative max-w-sm" onSubmit={handleSubmit}>
+              <button
+                type="submit"
+                className="absolute inset-y-0 right-0 flex items-center pr-3"
+              >
                 <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-              </span>
+              </button>
               <input
                 type="text"
                 className="w-full rounded-md border-2 border-gray-300 bg-white py-2 pr-10 pl-4 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-40 "
                 placeholder="Search"
+                onChange={(e) => setInput(e.target.value)}
+                required
               />
-            </div>
+            </form>
           </div>
           <ul className=" flex items-center space-x-8">
             <li className="hidden items-center transition-colors duration-150 ease-in-out hover:text-green-700 md:inline-flex">
@@ -115,7 +149,7 @@ const Header = () => {
                 </Link>
               </li>
               <li className="px-4">
-                <Link href="/">
+                <Link href="/contact">
                   <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
                     Contacto
                   </a>

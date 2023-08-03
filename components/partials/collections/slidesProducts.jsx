@@ -29,7 +29,7 @@ const SlidesPrducts = ({ title, url }) => {
       <Splide
         hasTrack={false}
         aria-label="My Favorite Images"
-        options={OPTIONS_SPLIDE}
+        options={{ ...OPTIONS_SPLIDE, arrows: true }}
       >
         <div className="flex items-center ">
           <h1 className="text-2xl font-bold uppercase">{title}</h1>

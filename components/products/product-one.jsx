@@ -48,6 +48,7 @@ const ProductOne = ({ product }) => {
             )}
           </a>
         </Link>
+        <p>{product.attributes.description}</p>
         <div className="mt-6 flex items-center uppercase">
           {product.attributes.hasDiscount ? (
             <div>
