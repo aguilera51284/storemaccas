@@ -17,6 +17,8 @@ import { toast } from 'react-hot-toast'
 
 const CheckoutComponent = ({ setSuccess }) => {
   const cartList = useStore((state) => state['@@cart'])
+  const cleanCart = useStore((state) => state.emptyCheckoutAndCart)
+
   const { data: session } = useSession()
   const { data } = useSWR(
     'summary',
@@ -44,6 +46,7 @@ const CheckoutComponent = ({ setSuccess }) => {
         behavior: 'smooth', // Opcional, hace que el scroll sea suave en navegadores modernos
       })
       setSuccess(true)
+      cleanCart()
     } catch (error) {
       toast.error('Error al crear la orden. Intentelo mas tarde.')
     }

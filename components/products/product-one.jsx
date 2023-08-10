@@ -53,15 +53,15 @@ const ProductOne = ({ product }) => {
           {product.attributes.hasDiscount ? (
             <div>
               <span className="mr-2 text-lg font-semibold text-red-500">
-                {currency(product.attributes.totalPriceTax).format()}
+                {currency(product.attributes.price).format()}
               </span>
               <span className="text-lg font-semibold line-through opacity-50">
-                {currency(product.attributes.priceTax).format()}
+                {currency(product.attributes.singlePrice).format()}
               </span>
             </div>
           ) : (
             <span className="text-lg font-semibold">
-              {currency(product.attributes.priceTax).format()}
+              {currency(product.attributes.price).format()}
             </span>
           )}
           <button

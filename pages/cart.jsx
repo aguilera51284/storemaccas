@@ -9,14 +9,31 @@ import { ArrowPathIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { isSSR } from '@/lib'
 import OutStock from '@/components/outStock'
+import useSWR, { useSWRConfig } from 'swr'
+import http from '@/lib/http'
+import { serializeCartList } from '@/lib'
+import { getStrapiMedia } from '@/lib/strapi'
 
-//TODO: Agregar los productos sin stock
 const CartPage = () => {
   const [cartListUpdate, setCartList] = useState([])
   const cartList = useStore((state) => state['@@cart'])
   const outStock = useStore((state) => state['@@outStock'])
   const removeProductInCartStore = useStore((state) => state.deleteItemCart)
   const updateCartItems = useStore((state) => state.updateCartItems)
+  const { mutate } = useSWRConfig()
+
+  const { data } = useSWR(
+    'summary',
+    async () =>
+      await http
+        .post('summary', {
+          json: {
+            products: serializeCartList(cartList),
+            hasInventory: false,
+          },
+        })
+        .json()
+  )
 
   function changeQty(value, id) {
     const updateItems = cartList.map((item) => {
@@ -38,6 +55,103 @@ const CartPage = () => {
     await updateCartItems(cartListUpdate)
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
+    mutate('summary')
+  }
+
+  const renderBody = (data) => {
+    return (
+      <tbody>
+        {data
+          ? data.products.map((item) => (
+              <tr className="border-b bg-white" key={item.id}>
+                <th
+                  scope="row"
+                  className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 "
+                >
+                  <Link href={`/products/${item.slug}`}>
+                    <a className="flex space-x-4">
+                      <figure className="relative h-24 w-24 flex-shrink-0">
+                        <Image
+                          src={getStrapiMedia(item.thumbnail)}
+                          layout="fill"
+                          objectFit="cover"
+                          alt={item.code}
+                        />
+                      </figure>
+                      <div>
+                        <h3 className="text-sm font-semibold">{`${item.code} - ${item.description}`}</h3>
+                        <div className="text-gray-500">
+                          <span className="pr-2 font-bold">Modelo:</span>
+                          <span>{item.productBrand.name}</span>
+                        </div>
+                        <OutStock
+                          idProduct={item.id}
+                          outStock={outStock.products}
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                </th>
+                <td className="py-4 px-6">
+                  {item.hasDiscount ? (
+                    <div>
+                      <span className="mr-2 text-lg font-semibold text-red-500">
+                        {currency(item.price).format()}
+                      </span>
+                      <span className="text-lg font-semibold line-through opacity-50">
+                        {currency(item.singlePrice).format()}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-lg font-bold text-gray-900">
+                      {currency(item.price).format()}
+                    </span>
+                  )}
+                </td>
+                <td className="py-4 px-6">
+                  <Qty
+                    value={item.quantity}
+                    changeQty={(current) => changeQty(current, item.id)}
+                    adClass="cart-product-quantity"
+                  />
+                </td>
+                <td className="py-4 px-6">
+                  <span className="text-lg font-bold text-gray-900">
+                    {currency(
+                      item.hasDiscount ? item.totalPrice : item.totalPriceSale
+                    ).format()}
+                  </span>
+                </td>
+                <td className="py-4 px-6">
+                  <button onClick={() => removeProductInCartStore(item.id)}>
+                    <TrashIcon className="h-5 w-5 fill-current text-gray-500 hover:text-accent-500" />
+                  </button>
+                </td>
+              </tr>
+            ))
+          : Array(5)
+              .fill('1')
+              .map((i, k) => (
+                <tr key={k} className="animate-pulse py-4 ">
+                  <td className="px-4 py-2 ">
+                    <span className="block h-4  bg-slate-200  py-2" />
+                  </td>
+                  <td className=" px-4 py-2 ">
+                    <span className="block h-4 bg-slate-200  py-2" />
+                  </td>
+                  <td className=" px-4 py-2 ">
+                    <span className="block h-4 bg-slate-200  py-2" />
+                  </td>
+                  <td className=" px-4 py-2 ">
+                    <span className="block h-4 bg-slate-200  py-2" />
+                  </td>
+                  <td className=" px-4 py-2 ">
+                    <span className="block h-4 bg-slate-200  py-2" />
+                  </td>
+                </tr>
+              ))}
+      </tbody>
+    )
   }
 
   return (
@@ -62,100 +176,41 @@ const CartPage = () => {
               <th scope="col" className="py-3 px-6" />
             </tr>
           </thead>
-          <tbody>
-            {isSSR() && (
-              <>
-                {cartList.length <= 0 ? (
-                  <tr>
-                    <td colSpan="5">
-                      <h3 className="block pt-12 text-center text-2xl">
-                        El carrito de compra esta vacio.
-                      </h3>
-                      <p className="block text-center">
-                        Te invitamos a agregar productos en nuestras secciones
-                        correspondientes.
-                      </p>
-                    </td>
-                  </tr>
-                ) : (
-                  cartList.map((item) => (
-                    <tr className="border-b bg-white" key={item.id}>
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 "
-                      >
-                        <Link href={`/products/${item.slug}`}>
-                          <a className="flex space-x-4">
-                            <figure className="relative h-24 w-24 flex-shrink-0">
-                              <Image
-                                src={item.image}
-                                layout="fill"
-                                objectFit="cover"
-                                alt={item.code}
-                              />
-                            </figure>
-                            <div>
-                              <h3 className="text-sm font-semibold">{`${item.code} - ${item.description}`}</h3>
-                              <div className="text-gray-500">
-                                <span className="pr-2 font-bold">Modelo:</span>
-                                <span>{item.productBrand.name}</span>
-                              </div>
-                              <OutStock
-                                idProduct={item.id}
-                                outStock={outStock.products}
-                              />
-                            </div>
-                          </a>
-                        </Link>
-                      </th>
-                      <td className="py-4 px-6">
-                        {item.hasDiscount ? (
-                          <div>
-                            <span className="mr-2 text-lg font-semibold text-red-500">
-                              {currency(item.totalPriceTax).format()}
-                            </span>
-                            <span className="text-lg font-semibold line-through opacity-50">
-                              {currency(item.priceTax).format()}
-                            </span>
-                          </div>
-                        ) : (
-                          <span className="text-lg font-bold text-gray-900">
-                            {currency(item.priceTax).format()}
-                          </span>
-                        )}
-                      </td>
-                      <td className="py-4 px-6">
-                        <Qty
-                          value={item.quantity}
-                          changeQty={(current) => changeQty(current, item.id)}
-                          adClass="cart-product-quantity"
-                        />
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className="text-lg font-bold text-gray-900">
-                          {currency(
-                            item.hasDiscount
-                              ? item.totalPriceTax
-                              : item.priceTax
-                          )
-                            .multiply(item.quantity)
-                            .format()}
-                        </span>
-                      </td>
-                      <td className="py-4 px-6">
-                        <button
-                          onClick={() => removeProductInCartStore(item.id)}
-                        >
-                          <TrashIcon className="h-5 w-5 fill-current text-gray-500 hover:text-accent-500" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </>
-            )}
-          </tbody>
+          {isSSR() && (
+            <>
+              {cartList.length <= 0 ? (
+                <tr>
+                  <td colSpan="5">
+                    <h3 className="block pt-12 text-center text-2xl">
+                      El carrito de compra esta vacio.
+                    </h3>
+                    <p className="block text-center">
+                      Te invitamos a agregar productos en nuestras secciones
+                      correspondientes.
+                    </p>
+                  </td>
+                </tr>
+              ) : (
+                renderBody(data)
+              )}
+            </>
+          )}
         </table>
+        <div className="flex items-end">
+          <div className="ml-auto flex items-center">
+            <div className="text-2xl">Total:</div>
+
+            {!data ? (
+              <div className="mx-4 animate-pulse py-4">
+                <span className="block h-4 w-14 rounded bg-slate-400" />
+              </div>
+            ) : (
+              <div className="ml-4 text-2xl font-bold">
+                {currency(data.total).format()}
+              </div>
+            )}
+          </div>
+        </div>
         <div className="flex w-full items-center space-x-8 py-8">
           <div className="w-1/3">
             <Link href="/">

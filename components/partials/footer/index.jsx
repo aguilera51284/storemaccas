@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Footer = () => {
   return (
@@ -21,14 +22,15 @@ const Footer = () => {
                 </a>
               </div>
               <p className="mt-2 max-w-sm text-white ">
-                Join 31,000+ other and never miss out on new tips, tutorials,
-                and more.
+                Consulta más de 35,000 productos en nuetro catálogo.
               </p>
               <div className="-mx-2 mt-6 flex">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/ComercializadoraMACCAS"
+                  target="_blank"
                   className="mx-2  transition-colors duration-300 hover:text-accent-500"
                   aria-label="Facebook"
+                  rel="noreferrer"
                 >
                   <svg
                     className="h-5 w-5 fill-current"
@@ -45,28 +47,20 @@ const Footer = () => {
           <div className="mt-6 lg:mt-0 lg:flex-1">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <div>
-                <h3 className="uppercase text-gray-300 ">About</h3>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Company
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  community
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Careers
-                </a>
+                <h3 className="uppercase text-gray-300 ">Acerca</h3>
+                <Link href="/about">
+                  <a className="mt-2 block text-sm  hover:underline ">
+                    Quiénes somos
+                  </a>
+                </Link>
               </div>
               <div>
-                <h3 className="uppercase text-gray-300 ">Blog</h3>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Tec
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Music
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Videos
-                </a>
+                <h3 className="uppercase text-gray-300 ">PRODUCTOS</h3>
+                <Link href="/catalog">
+                  <a className="mt-2 block text-sm  hover:underline ">
+                    Catálogo
+                  </a>
+                </Link>
               </div>
               <div>
                 <h3 className="uppercase text-gray-300 ">Products</h3>
@@ -81,13 +75,16 @@ const Footer = () => {
                 </a>
               </div>
               <div>
-                <h3 className="uppercase text-gray-300 ">Contact</h3>
+                <h3 className="uppercase text-gray-300 ">CONTACTO</h3>
                 <span className="mt-2 block text-sm  hover:underline ">
-                  +1 526 654 8965
+                  +52 993 105-5006
                 </span>
-                <span className="mt-2 block text-sm  hover:underline ">
-                  example@email.com
-                </span>
+                <a
+                  href="mailto:gerardo.macedo@gmail.com"
+                  className="mt-2 block text-sm  hover:underline "
+                >
+                  gerardo.macedo@gmail.com
+                </a>
               </div>
             </div>
           </div>
@@ -95,7 +92,7 @@ const Footer = () => {
         <hr className="my-6 h-px border-none bg-gray-200 " />
         <div>
           <p className="text-center text-white ">
-            © Brand 2020 - All rights reserved
+            © Comercializadora Maccas 2023 - Todos los derechos reservados.
           </p>
         </div>
       </div>

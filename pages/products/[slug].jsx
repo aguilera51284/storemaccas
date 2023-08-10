@@ -107,14 +107,16 @@ const ProductDetail = ({ product }) => {
             </h4>
             {/** List */}
             <ul className="my-6 mx-auto w-2/3">
-              <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
-                <label htmlFor="brand" className="w-1/2 font-semibold">
-                  Equivalencia:
-                </label>
-                <span className="w-1/2 text-gray-700">
-                  {product.attributes.equivalence}
-                </span>
-              </li>
+              {product.attributes.equivalence && (
+                <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
+                  <label htmlFor="brand" className="w-1/2 font-semibold">
+                    Equivalencia:
+                  </label>
+                  <span className="w-1/2 text-gray-700">
+                    {product.attributes.equivalence}
+                  </span>
+                </li>
+              )}
 
               {product.attributes.productBrand.data && (
                 <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
@@ -152,15 +154,15 @@ const ProductDetail = ({ product }) => {
               {product.attributes.hasDiscount ? (
                 <div className="inline-flex items-center">
                   <h3 className="mr-2 text-3xl font-semibold text-red-500">
-                    {currency(product.attributes.totalPriceTax).format()}
+                    {currency(product.attributes.price).format()}
                   </h3>
                   <h3 className="text-3xl font-semibold line-through opacity-50">
-                    {currency(product.attributes.priceTax).format()}
+                    {currency(product.attributes.totalPriceSale).format()}
                   </h3>
                 </div>
               ) : (
                 <h3 className="text-3xl font-semibold">
-                  {currency(product.attributes.priceTax).format()}
+                  {currency(product.attributes.price).format()}
                 </h3>
               )}
               <button
@@ -177,13 +179,6 @@ const ProductDetail = ({ product }) => {
           <div className="flex border-b border-gray-200 ">
             <button className="  -mb-px h-10 whitespace-nowrap border-b-2 border-accent-500 bg-transparent px-4 py-2 text-center  text-accent-600 focus:outline-none ">
               Caracteristicas
-            </button>
-
-            <button
-              disabled
-              className=" cursor-base -mb-px h-10 whitespace-nowrap border-b-2 border-transparent bg-transparent px-4 py-2 text-center  text-gray-700 hover:border-gray-400 focus:outline-none  disabled:opacity-40 sm:text-base"
-            >
-              Ratings
             </button>
           </div>
           <div className="my-8">

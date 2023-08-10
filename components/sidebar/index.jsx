@@ -43,7 +43,7 @@ function ShopSidebarOne(props) {
         <div className="flex justify-between border-t border-gray-200 bg-blue-50 px-5 py-3">
           <label className="text-xs font-bold">Filtros:</label>
           <a
-            href={{ pathname: router.pathname, query: { type: query.type } }}
+            href={router.pathname}
             className="rounded text-xs font-medium text-gray-600 underline"
             //scroll={false}
           >

@@ -72,11 +72,12 @@ export default function Home({ homeBanner, tagsHome }) {
       </div>
       {/* NewsLetterForm */}
       <NewsLetterForm />
-      {/** Most selling */}
+      {/** Most selling
       <SlidesPrducts
         url={`products?${getMostSelling}`}
         title="Productos mas vendidos"
       />
+      */}
     </Layout>
   )
 }
