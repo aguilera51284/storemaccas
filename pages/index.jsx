@@ -3,12 +3,7 @@ import Layout from '@/components/layout'
 import http from '@/lib/http'
 import Banner from '@/components/banner'
 import SlidesPrducts from '@/components/partials/collections/slidesProducts'
-import {
-  getTagsForHome,
-  getTopProducts,
-  slidesByPosition,
-  getMostSelling,
-} from '@/lib/queries'
+import { getTagsForHome, getTopProducts, slidesByPosition } from '@/lib/queries'
 import Image from 'next/image'
 import { getStrapiMedia } from '@/lib/strapi'
 import NewsLetterForm from '@/components/partials/newsletter'
