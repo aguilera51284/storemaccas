@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="bg-black py-4 text-white ">
+    <footer className="mt-auto bg-black py-4 text-white">
       <div className="container mx-auto p-6">
         <div className="lg:flex">
           <div className="-mx-6 w-full lg:w-2/5">
@@ -22,7 +22,7 @@ const Footer = () => {
                 </a>
               </div>
               <p className="mt-2 max-w-sm text-white ">
-                Consulta más de 35,000 productos en nuetro catálogo.
+                Consulta más de 35,000 productos en nuestro catálogo.
               </p>
               <div className="-mx-2 mt-6 flex">
                 <a
@@ -62,18 +62,7 @@ const Footer = () => {
                   </a>
                 </Link>
               </div>
-              <div>
-                <h3 className="uppercase text-gray-300 ">Products</h3>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Mega cloud
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Aperion UI
-                </a>
-                <a href="#" className="mt-2 block text-sm  hover:underline ">
-                  Meraki UI
-                </a>
-              </div>
+
               <div>
                 <h3 className="uppercase text-gray-300 ">CONTACTO</h3>
                 <span className="mt-2 block text-sm  hover:underline ">

@@ -225,7 +225,7 @@ export async function getServerSideProps({ params, ...ctx }) {
     .get(
       `products?${qs.stringify({
         filters: {
-          slug: params.slug,
+          $or: [{ slug: params.slug }, { code: params.slug }],
         },
         populate: ['gallery', 'carBrand', 'productBrand'],
         select: ['carBrand.name'],

@@ -14,6 +14,14 @@ module.exports = {
         lg: '1024px',
         xl: '1280px',
       },
+      extend: {
+        colors: {
+          pending: '#F59E0B',
+          inProgress: '#10B981',
+          enRoute: '#3B82F6',
+          delivered: '#34D399',
+        },
+      },
     },
 
     extend: {

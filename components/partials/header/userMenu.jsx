@@ -2,6 +2,7 @@ import { Fragment } from 'preact'
 import { Menu, Transition } from '@headlessui/react'
 import { UserIcon } from '@heroicons/react/20/solid'
 import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 
 export default function UserMenu() {
   return (
@@ -24,13 +25,28 @@ export default function UserMenu() {
           <div className="px-1 py-1 ">
             <Menu.Item>
               {({ active }) => (
-                <button
-                  className={`${
-                    active ? ' bg-accent-50 text-accent-500' : 'text-gray-900'
-                  } group flex w-full items-center rounded-md px-2 py-2`}
-                >
-                  Mi perfil
-                </button>
+                <Link href="/account/orders">
+                  <a
+                    className={`${
+                      active ? ' bg-accent-50 text-accent-500' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2`}
+                  >
+                    Mis órdenes
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Link href="/account/discounts">
+                  <a
+                    className={`${
+                      active ? ' bg-accent-50 text-accent-500' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2`}
+                  >
+                    Mis descuentos
+                  </a>
+                </Link>
               )}
             </Menu.Item>
             <Menu.Item>
