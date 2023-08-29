@@ -15,6 +15,10 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
           />
+
+
+          <meta name="msapplication-TileColor" content="#00CCFF" />
+          <link rel="icon" href="/favicon.ico" sizes="any" />
         </Head>
         <body className="debug-screens">
           <Main />
