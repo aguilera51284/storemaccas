@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks'
+import { useState, useMemo } from 'preact/hooks'
 import Layout from '@/components/layout'
 import ShopSidebarOne from '@/components/sidebar'
 import http from '@/lib/http'
@@ -10,16 +10,16 @@ import qs from 'qs'
 
 const Catalog = ({ tags, carBrands, productBrand }) => {
   const router = useRouter()
-  const query = qs.parse(router.asPath.split('?')[1])
+  const query = useMemo(() => qs.parse(router.asPath.split('?')[1]), [router])
   //const [firstLoading, setFirstLoading] = useState(false)
   const [perPage] = useState(10)
   //const [toggle, setToggle] = useState(false)
-
+  console.log(query)
   const { data: products, error } = useSWR(
     `products?${qs.stringify(
       {
         filters: query.filters,
-        populate: ['thumbnail', 'productBrand'],
+        populate: ['thumbnail', 'productBrand', 'model'],
         pagination: {
           limit: perPage,
         },
@@ -79,8 +79,8 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
                         height="24"
                       />
                     </svg>
-                    <span className="relative">Explora </span>
-                  </span>
+                    <span className="relative">Explora</span>
+                  </span>{' '}
                   nuestro catalogo que tenemos para ti.
                 </h2>
               </div>

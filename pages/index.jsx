@@ -35,15 +35,18 @@ export default function Home({ homeBanner, tagsHome }) {
               className="rounded bg-gray-100 transition-all duration-100 ease-out hover:bg-accent-600 hover:text-white"
             >
               <Link
-                href={`/catalog?${qs.stringify({
-                  filters: {
-                    tags: {
-                      slug: {
-                        $eq: tag.attributes.slug,
+                href={`/catalog?${qs.stringify(
+                  {
+                    filters: {
+                      tags: {
+                        slug: {
+                          $eq: tag.attributes.slug,
+                        },
                       },
                     },
                   },
-                })}`}
+                  { encode: false }
+                )}`}
               >
                 <a className="flex items-center space-x-8 px-6 py-4">
                   <div className=" w-1/2">

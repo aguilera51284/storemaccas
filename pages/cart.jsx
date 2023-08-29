@@ -46,6 +46,7 @@ const CartPage = () => {
     })
     console.log('uppdating quantity', updateItems)
     setCartList(updateItems)
+    mutate('summary')
   }
 
   async function updateCart(e) {
@@ -55,6 +56,11 @@ const CartPage = () => {
     await updateCartItems(cartListUpdate)
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
+    mutate('summary')
+  }
+
+  function deleteItemCartSingle(id) {
+    removeProductInCartStore(id)
     mutate('summary')
   }
 
@@ -95,10 +101,10 @@ const CartPage = () => {
                 <td className="py-4 px-6">
                   {item.hasDiscount ? (
                     <div>
-                      <span className="mr-2 text-lg font-semibold text-red-500">
+                      <span className="text-lg font-semibold line-through opacity-50">
                         {currency(item.price).format()}
                       </span>
-                      <span className="text-lg font-semibold line-through opacity-50">
+                      <span className="ml-2 text-lg font-semibold text-red-500">
                         {currency(item.singlePrice).format()}
                       </span>
                     </div>
@@ -118,12 +124,12 @@ const CartPage = () => {
                 <td className="py-4 px-6">
                   <span className="text-lg font-bold text-gray-900">
                     {currency(
-                      item.hasDiscount ? item.totalPrice : item.totalPriceSale
+                      item.hasDiscount ? item.totalPriceSale : item.totalPrice
                     ).format()}
                   </span>
                 </td>
                 <td className="py-4 px-6">
-                  <button onClick={() => removeProductInCartStore(item.id)}>
+                  <button onClick={() => deleteItemCartSingle(item.id)}>
                     <TrashIcon className="h-5 w-5 fill-current text-gray-500 hover:text-accent-500" />
                   </button>
                 </td>
@@ -206,7 +212,7 @@ const CartPage = () => {
               </div>
             ) : (
               <div className="ml-4 text-2xl font-bold">
-                {currency(data.total).format()}
+                {currency(cartList.length >= 1 ? data.total : 0).format()}
               </div>
             )}
           </div>

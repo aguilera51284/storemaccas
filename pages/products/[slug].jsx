@@ -1,3 +1,4 @@
+import { useState } from 'preact/hooks'
 import Layout from '@/components/layout'
 import http from '@/lib/http'
 import qs from 'qs'
@@ -11,8 +12,13 @@ import ProductRelations from '@/components/partials/product/relations'
 import useSwr from 'swr'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../api/auth/[...nextauth]'
+import { useStore } from '@/store'
+import { toast } from 'react-hot-toast'
+import Qty from '@/components/qty'
 
 const ProductDetail = ({ product }) => {
+  const addToCart = useStore((state) => state.addProductToCart)
+  const [unit, setUnit] = useState(1)
   const router = useRouter()
   let OR_DATA = []
   if (product) {
@@ -48,7 +54,7 @@ const ProductDetail = ({ product }) => {
                 $notIn: [product.id],
               },
             },
-            populate: ['thumbnail', 'productBrand'],
+            populate: ['thumbnail', 'productBrand', 'model'],
           },
           {
             encode: process.env.NODE_ENV !== 'production',
@@ -56,6 +62,13 @@ const ProductDetail = ({ product }) => {
         )}`
       : null
   )
+  const onCartClick = (e) => {
+    e.preventDefault()
+    addToCart(product, unit)
+    setUnit(1)
+    toast.success('Producto agregado al carrito')
+  }
+  console.log(unit)
 
   if (router.isFallback) {
     return (
@@ -107,6 +120,28 @@ const ProductDetail = ({ product }) => {
             </h4>
             {/** List */}
             <ul className="my-6 mx-auto w-2/3">
+              {product.attributes.productBrand.data && (
+                <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
+                  <label htmlFor="brand" className="w-1/2 font-semibold">
+                    Marca:
+                  </label>
+                  <span className="w-1/2 text-gray-700">
+                    {product.attributes.productBrand.data.attributes.name}
+                  </span>
+                </li>
+              )}
+
+              {product.attributes.model.data && (
+                <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
+                  <label htmlFor="brand" className="w-1/2 font-semibold">
+                    Modelo:
+                  </label>
+                  <span className="w-1/2 text-gray-700">
+                    {product.attributes.model.data.attributes.name}
+                  </span>
+                </li>
+              )}
+
               {product.attributes.equivalence && (
                 <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
                   <label htmlFor="brand" className="w-1/2 font-semibold">
@@ -114,17 +149,6 @@ const ProductDetail = ({ product }) => {
                   </label>
                   <span className="w-1/2 text-gray-700">
                     {product.attributes.equivalence}
-                  </span>
-                </li>
-              )}
-
-              {product.attributes.productBrand.data && (
-                <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
-                  <label htmlFor="brand" className="w-1/2 font-semibold">
-                    Marca Producto:
-                  </label>
-                  <span className="w-1/2 text-gray-700">
-                    {product.attributes.productBrand.data.attributes.name}
                   </span>
                 </li>
               )}
@@ -139,25 +163,16 @@ const ProductDetail = ({ product }) => {
                   </span>
                 </li>
               )}
-
-              <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
-                <label htmlFor="brand" className="w-1/2 font-semibold">
-                  Año:
-                </label>
-                <span className="w-1/2 text-gray-700">
-                  {product.attributes.year}
-                </span>
-              </li>
             </ul>
 
-            <div className="mt-12 flex items-center ">
+            <div className="mt-12 flex items-center justify-between ">
               {product.attributes.hasDiscount ? (
                 <div className="inline-flex items-center">
                   <h3 className="mr-2 text-3xl font-semibold text-red-500">
-                    {currency(product.attributes.price).format()}
+                    {currency(product.attributes.totalPriceSale).format()}
                   </h3>
                   <h3 className="text-3xl font-semibold line-through opacity-50">
-                    {currency(product.attributes.totalPriceSale).format()}
+                    {currency(product.attributes.price).format()}
                   </h3>
                 </div>
               ) : (
@@ -165,9 +180,15 @@ const ProductDetail = ({ product }) => {
                   {currency(product.attributes.price).format()}
                 </h3>
               )}
+              <Qty
+                adClass="cart-product-quantity mx-auto"
+                value={unit}
+                changeQty={(current) => setUnit(current)}
+              />
               <button
                 disabled={!product.attributes.stock >= 1}
-                className="ml-auto inline-flex items-center rounded-md bg-accent-500 py-4 px-6 uppercase text-white"
+                onClick={onCartClick}
+                className="inline-flex items-center rounded-md bg-accent-500 py-4 px-6 uppercase text-white"
               >
                 <ShoppingCartIcon className="h-5 w-5" />
                 <span className="ml-2">Agregar a carrito</span>
@@ -227,7 +248,7 @@ export async function getServerSideProps({ params, ...ctx }) {
         filters: {
           $or: [{ slug: params.slug }, { code: params.slug }],
         },
-        populate: ['gallery', 'carBrand', 'productBrand'],
+        populate: ['gallery', 'carBrand', 'productBrand', 'model', 'thumbnail'],
         select: ['carBrand.name'],
       })}`
     )

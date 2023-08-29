@@ -41,21 +41,19 @@ const ProductOne = ({ product }) => {
             <span className="block  text-lg font-semibold text-gray-800">
               {`${product.attributes.code} `}
             </span>
-            {product.attributes.productBrand && (
-              <span className="block text-sm text-gray-600">
-                {`${product.attributes.productBrand.name} ${product.attributes.year}`}
-              </span>
-            )}
+            <span className="block text-sm text-gray-600">
+              {`${product.attributes.model.data.attributes.name}`}
+            </span>
           </a>
         </Link>
         <p>{product.attributes.description}</p>
         <div className="mt-6 flex items-center uppercase">
           {product.attributes.hasDiscount ? (
             <div>
-              <span className="mr-2 text-lg font-semibold text-red-500">
+              <span className="text-lg font-semibold line-through opacity-50">
                 {currency(product.attributes.price).format()}
               </span>
-              <span className="text-lg font-semibold line-through opacity-50">
+              <span className="ml-2 text-lg font-semibold text-red-500">
                 {currency(product.attributes.singlePrice).format()}
               </span>
             </div>

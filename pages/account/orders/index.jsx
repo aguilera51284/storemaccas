@@ -1,3 +1,4 @@
+'use client'
 import Layout from '@/components/layout'
 import ProtectedPage from '@/components/protectedPage'
 import useOrdersAccounts from '@/hooks/useOrdersAccounts'
@@ -71,7 +72,9 @@ function Orders() {
                         <tr key={order.id}>
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-900">
-                              {order.reference}
+                              <Link href={`/account/orders/${order.reference}`}>
+                                {order.reference}
+                              </Link>
                             </div>
                           </td>
 

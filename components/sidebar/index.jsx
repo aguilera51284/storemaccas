@@ -51,48 +51,6 @@ function ShopSidebarOne(props) {
           </a>
         </div>
         <div className={toggle ? 'sidebar-filter-wrapper' : ''}>
-          {/* <div className="border-t border-gray-200 lg:border-t-0">
-            <h3 className="widget-title mb-2">
-              <a href="#category" className="block w-full bg-gray-50 px-5 py-3 text-xs font-medium">
-                Armadora
-              </a>
-            </h3>
-
-            <div>
-              <div className="widget-body pt-0">
-                <div className="filter-items filter-items-count">
-                  {productBrand.data.map((item, index) => (
-                    <div className="filter-item" key={`cat_${index}`}>
-                      <a
-                        className={`${
-                          query?.filters?.categories?.slug?.$eq ==
-                          item.attributes.slug
-                            ? 'active'
-                            : ''
-                        }`}
-                        href={`/catalog?${qs.stringify(
-                          {
-                            filters: {
-                              categories: {
-                                slug: {
-                                  $eq: item.attributes.slug,
-                                },
-                              },
-                            },
-                          },
-                          { encode: false },
-                        )}`}
-                        scroll={false}
-                      >
-                        {item.attributes.name}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           <div className="border-t border-gray-200 lg:border-t-0">
             <h3 className="widget-title mb-2">
               <a
@@ -111,7 +69,7 @@ function ShopSidebarOne(props) {
                         <input
                           type="checkbox"
                           className="form-checkbox rounded text-accent-500"
-                          id={`tags-${index + 1}`}
+                          id={`productBrand-${index + 1}`}
                           onChange={(e) =>
                             onAttrClick(e, 'productBrand', item.attributes.slug)
                           }
@@ -126,7 +84,7 @@ function ShopSidebarOne(props) {
                         />
                         <label
                           className="ml-2 font-medium uppercase"
-                          htmlFor={`tags-${index + 1}`}
+                          htmlFor={`productBrand-${index + 1}`}
                         >
                           {item.attributes.name}
                         </label>
@@ -200,10 +158,10 @@ function ShopSidebarOne(props) {
                           className="form-checkbox rounded text-accent-500"
                           id={`brands-${index + 1}`}
                           onChange={(e) =>
-                            onAttrClick(e, 'carBrands', item.attributes.slug)
+                            onAttrClick(e, 'carBrand', item.attributes.slug)
                           }
                           checked={
-                            containsAttrInUrl('carBrands', item.attributes.slug)
+                            containsAttrInUrl('carBrand', item.attributes.slug)
                               ? true
                               : false
                           }

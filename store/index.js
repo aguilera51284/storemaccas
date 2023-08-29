@@ -104,7 +104,7 @@ export const initializeStore = (preloadedState = {}) => {
               {
                 ['@@cart']: [
                   ...actualCart['@@cart'],
-                  { ...pickCart(product), quantity: 1 },
+                  { ...pickCart(product), quantity },
                 ],
               },
               false,
