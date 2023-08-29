@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'preact/hooks'
+import { useState, useMemo, useEffect } from 'preact/hooks'
 import Layout from '@/components/layout'
 import ShopSidebarOne from '@/components/sidebar'
 import http from '@/lib/http'
@@ -7,21 +7,22 @@ import useSWR from 'swr'
 import SkeletonProductCard from '@/components/skeletons/productCard'
 import ProductOne from '@/components/products/product-one'
 import qs from 'qs'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import Pagination from '@/components/pagination'
 
 const Catalog = ({ tags, carBrands, productBrand }) => {
   const router = useRouter()
+  const [input, setInput] = useState()
   const query = useMemo(() => qs.parse(router.asPath.split('?')[1]), [router])
-  //const [firstLoading, setFirstLoading] = useState(false)
   const [perPage] = useState(10)
-  //const [toggle, setToggle] = useState(false)
-  console.log(query)
   const { data: products, error } = useSWR(
     `products?${qs.stringify(
       {
         filters: query.filters,
         populate: ['thumbnail', 'productBrand', 'model'],
         pagination: {
-          limit: perPage,
+          pageSize: perPage,
+          page: query?.pagination?.page || 1,
         },
         sort: query.sort,
       },
@@ -42,6 +43,42 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
 
     router.push(url + 'sort=' + e.target.value)
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    router.push(
+      `/catalog?${qs.stringify(
+        {
+          filters: {
+            $or: [
+              {
+                description: {
+                  $containsi: input,
+                },
+              },
+              {
+                code: {
+                  $containsi: input,
+                },
+              },
+            ],
+          },
+        },
+        { encode: false }
+      )}`
+    )
+  }
+
+  useEffect(() => {
+    // Obtener los parámetros de la URL
+    const queryParams = qs.parse(router.query)
+    console.log(queryParams)
+    if (queryParams.filters && queryParams.filters.$or) {
+      const descriptionFilterParam =
+        queryParams.filters.$or[0]?.description?.$containsi
+      setInput(descriptionFilterParam)
+    }
+  }, [router.query])
 
   return (
     <Layout>
@@ -98,9 +135,31 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
               />
             </div>
             <div className="w-2/3">
+              <div className="my-4">
+                <form className="relative max-w-sm" onSubmit={handleSubmit}>
+                  <button
+                    type="submit"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  >
+                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                  </button>
+                  <input
+                    type="text"
+                    className="w-full rounded-md border-2 border-gray-300 bg-white py-2 pr-10 pl-4 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-primary-300 focus:ring-opacity-40 "
+                    placeholder="Search"
+                    required
+                    value={input}
+                    onChange={(e) =>
+                      e.target.value.trim() === ''
+                        ? null
+                        : setInput(e.target.value)
+                    }
+                  />
+                </form>
+              </div>
               <div className="flex items-center py-6">
                 <p className="text-normal font-medium">
-                  Mostrando:
+                  Total:
                   <span className="text-accent-500">{totalCount}</span>{' '}
                   productos
                 </p>
@@ -136,6 +195,11 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
                   : products.data.map((product) => (
                       <ProductOne key={product.id} product={product} />
                     ))}
+              </div>
+              <div>
+                {products && (
+                  <Pagination pagination={products.meta.pagination} />
+                )}
               </div>
             </div>
           </div>
