@@ -40,7 +40,7 @@ export default function Home({ homeBanner, tagsHome }) {
                     filters: {
                       tags: {
                         slug: {
-                          $eq: tag.attributes.slug,
+                          $eq: [tag.attributes.slug],
                         },
                       },
                     },
