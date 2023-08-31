@@ -180,8 +180,8 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
                         value={query.sort ? query.sort : 'default'}
                       >
                         <option value="default">Default</option>
-                        <option value="priceTax:desc">Mayor Precio</option>
-                        <option value="priceTax:asc">Menor Precio</option>
+                        <option value="price:desc">Mayor Precio</option>
+                        <option value="price:asc">Menor Precio</option>
                       </select>
                     </div>
                   </div>

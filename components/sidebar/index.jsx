@@ -34,7 +34,12 @@ function ShopSidebarOne(props) {
     dset(dQuery, `filters.${attr}`, {
       slug: { $eq: normalizeArrayValue(value, attr) },
     })
-    router.push(`${router.pathname}?${qs.stringify(dQuery, { encode: false })}`)
+    router.push(
+      `${router.pathname}?${qs.stringify(
+        { filters: dQuery.filters },
+        { encode: false }
+      )}`
+    )
   }
 
   return (
