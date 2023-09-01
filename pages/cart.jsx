@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks'
+import { useState, useCallback } from 'preact/hooks'
 import Layout from '@/components/layout'
 import Qty from '@/components/qty'
 import { useStore } from '@/store'
@@ -52,14 +52,17 @@ const CartPage = () => {
     }
   }
 
-  async function updateCart(e) {
-    let button = e.currentTarget
-    button.querySelector('.icon-refresh').classList.add('animate-spin')
-    await updateCartItems(cartListUpdate, mutate)
-    //await mutate('api/summary')
-    toast.success('Productos actualizados correctamente.')
-    button.querySelector('.icon-refresh').classList.remove('animate-spin')
-  }
+  const updateCart = useCallback(
+    async (e) => {
+      let button = e.currentTarget
+      button.querySelector('.icon-refresh').classList.add('animate-spin')
+      await updateCartItems(cartListUpdate)
+      await mutate('api/summary')
+      toast.success('Productos actualizados correctamente.')
+      button.querySelector('.icon-refresh').classList.remove('animate-spin')
+    },
+    [cartListUpdate, mutate, updateCartItems]
+  )
 
   function deleteItemCartSingle(id) {
     removeProductInCartStore(id)

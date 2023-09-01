@@ -119,7 +119,7 @@ export const initializeStore = (preloadedState = {}) => {
           )
           set({ ['@@cart']: filterCart }, false, 'cart/deteleItem')
         },
-        updateCartItems: async (cartList = [], mutate) => {
+        updateCartItems: (cartList = []) => {
           let actualCart = klona(get())
           if (Array.isArray(cartList)) {
             cartList.forEach((item) => {
@@ -134,8 +134,7 @@ export const initializeStore = (preloadedState = {}) => {
               }
             })
           }
-          await set({ ['@@cart']: actualCart['@@cart'] }, false, 'cart/updateItems')
-          mutate('api/summary')
+          set({ ['@@cart']: actualCart['@@cart'] }, false, 'cart/updateItems')
         },
         addOutStockItems: (data, visible) =>
           set({ '@@outStock': { products: data, show: visible } }),
