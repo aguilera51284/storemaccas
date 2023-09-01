@@ -36,17 +36,21 @@ const CartPage = () => {
   )
 
   function changeQty(value, id) {
-    const updateItems = cartList.map((item) => {
-      if (item.id === id)
-        return {
-          ...item,
-          quantity: value,
-        }
-      return item
-    })
-    console.log('uppdating quantity', updateItems)
-    setCartList(updateItems)
-    mutate('summary')
+    const currentIndex = cartListUpdate.find((e) => e.id === id)
+
+    if (!currentIndex) {
+      setCartList([...cartListUpdate, { id, quantity: value }])
+    } else {
+      const updateItems = cartListUpdate.map((item) => {
+        if (item.id === id)
+          return {
+            ...item,
+            quantity: value,
+          }
+        return item
+      })
+      setCartList(updateItems)
+    }
   }
 
   async function updateCart(e) {
