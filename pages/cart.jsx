@@ -23,7 +23,7 @@ const CartPage = () => {
   const updateCartItems = useStore((state) => state.updateCartItems)
 
   const { data } = useSWR(
-    'summary',
+    'api/summary',
     async () =>
       await http
         .post('summary', {
@@ -55,15 +55,15 @@ const CartPage = () => {
   async function updateCart(e) {
     let button = e.currentTarget
     button.querySelector('.icon-refresh').classList.add('animate-spin')
-    await updateCartItems(cartListUpdate)
-    await mutate('summary')
+    await updateCartItems(cartListUpdate, mutate)
+    //await mutate('api/summary')
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
   }
 
   function deleteItemCartSingle(id) {
     removeProductInCartStore(id)
-    mutate('summary')
+    mutate('api/summary')
   }
 
   const renderBody = (data) => {
