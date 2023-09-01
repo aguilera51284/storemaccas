@@ -15,12 +15,12 @@ import { serializeCartList } from '@/lib'
 import { getStrapiMedia } from '@/lib/strapi'
 
 const CartPage = () => {
+  const { mutate } = useSWRConfig()
   const [cartListUpdate, setCartList] = useState([])
   const cartList = useStore((state) => state['@@cart'])
   const outStock = useStore((state) => state['@@outStock'])
   const removeProductInCartStore = useStore((state) => state.deleteItemCart)
   const updateCartItems = useStore((state) => state.updateCartItems)
-  const { mutate } = useSWRConfig()
 
   const { data } = useSWR(
     'summary',
@@ -55,11 +55,10 @@ const CartPage = () => {
   async function updateCart(e) {
     let button = e.currentTarget
     button.querySelector('.icon-refresh').classList.add('animate-spin')
-    console.log('sendValidation', cartListUpdate)
     await updateCartItems(cartListUpdate)
+    await mutate('summary')
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
-    mutate('summary', undefined, { revalidate: true })
   }
 
   function deleteItemCartSingle(id) {
@@ -162,6 +161,7 @@ const CartPage = () => {
       </tbody>
     )
   }
+  console.log(cartList, data)
 
   return (
     <Layout>
