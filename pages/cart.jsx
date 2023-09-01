@@ -37,7 +37,6 @@ const CartPage = () => {
 
   function changeQty(value, id) {
     const currentIndex = cartListUpdate.find((e) => e.id === id)
-
     if (!currentIndex) {
       setCartList([...cartListUpdate, { id, quantity: value }])
     } else {
@@ -60,7 +59,7 @@ const CartPage = () => {
     await updateCartItems(cartListUpdate)
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
-    mutate('summary')
+    mutate('summary', undefined, { revalidate: true })
   }
 
   function deleteItemCartSingle(id) {
