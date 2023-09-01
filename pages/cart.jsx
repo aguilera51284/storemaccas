@@ -56,6 +56,7 @@ const CartPage = () => {
     let button = e.currentTarget
     button.querySelector('.icon-refresh').classList.add('animate-spin')
     await updateCartItems(cartListUpdate, mutate)
+    await mutate('api/summary')
     toast.success('Productos actualizados correctamente.')
     button.querySelector('.icon-refresh').classList.remove('animate-spin')
   }
