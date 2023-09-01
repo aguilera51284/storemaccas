@@ -16,7 +16,7 @@ const Footer = () => {
                   <Image
                     width={160}
                     height={52}
-                    src="/images/logo-removebg.png"
+                    src="/images/logo-footer.png"
                     alt="Comercializadora MACCAS"
                   />
                 </a>
