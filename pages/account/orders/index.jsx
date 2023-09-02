@@ -73,7 +73,9 @@ function Orders() {
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="text-sm text-gray-900">
                               <Link href={`/account/orders/${order.reference}`}>
-                                {order.reference}
+                                <a className="font-bold underline hover:text-primary-500">
+                                  {order.reference}
+                                </a>
                               </Link>
                             </div>
                           </td>

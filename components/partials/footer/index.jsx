@@ -81,7 +81,7 @@ const Footer = () => {
         <hr className="my-6 h-px border-none bg-gray-200 " />
         <div>
           <p className="text-center text-white ">
-            © Comercializadora Maccas 2023 - Todos los derechos reservados.
+            © Comercializadora MACCAS 2023 - Todos los derechos reservados.
           </p>
         </div>
       </div>

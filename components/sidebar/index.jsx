@@ -149,7 +149,7 @@ function ShopSidebarOne(props) {
                 href="#colour"
                 className="block w-full bg-gray-50 px-5 py-3 text-xs font-medium"
               >
-                Marca vehiculo:
+                Marca vehículo:
               </a>
             </h3>
             <div>

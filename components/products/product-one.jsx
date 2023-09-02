@@ -42,7 +42,7 @@ const ProductOne = ({ product }) => {
               {`${product.attributes.code} `}
             </span>
             <span className="block text-sm text-gray-600">
-              {`${product.attributes.model.data.attributes.name}`}
+              {`${product.attributes.productBrand.name} -  ${product.attributes.model.data.attributes.name}`}
             </span>
           </a>
         </Link>

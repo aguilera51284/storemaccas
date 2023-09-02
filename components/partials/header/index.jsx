@@ -144,7 +144,7 @@ const Header = () => {
               <li className="px-4">
                 <Link href="/about">
                   <a className="font-medium uppercase transition-colors duration-150 ease-linear hover:text-accent-400">
-                    Quienes somos
+                    Quiénes somos
                   </a>
                 </Link>
               </li>
@@ -157,7 +157,7 @@ const Header = () => {
               </li>
             </ul>
             <div className="w-full flex-shrink-0 items-center py-2 text-center  text-xs font-medium uppercase md:ml-auto md:w-auto md:text-right">
-              Compra mas de $10,000 y el envio es gratis.
+              Compra más de $10,000.00 y el envío es gratis.
             </div>
           </div>
         </div>

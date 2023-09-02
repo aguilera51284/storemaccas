@@ -24,7 +24,7 @@ export default function Home({ homeBanner, tagsHome }) {
           </span>
           <Link href="/catalog">
             <a className="ml-auto rounded-md border-2 border-accent-500 py-1 px-4 font-medium uppercase  transition-colors duration-150 ease-linear hover:bg-accent-500 hover:text-white">
-              Ver mas
+              Ver más
             </a>
           </Link>
         </div>

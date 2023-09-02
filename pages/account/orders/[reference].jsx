@@ -121,11 +121,11 @@ function OrderDetail() {
                             <strong>Entregar en:</strong>
                             <p>
                               <span>{`${order.attributes.orderAddress.data.attributes.address}`}</span>
-                              <span>{`#${order.attributes.orderAddress.data.attributes.numExt},`}</span>
+                              <span>{` ${order.attributes.orderAddress.data.attributes.numExt}, `}</span>
                               <span>{`${order.attributes.orderAddress.data.attributes.colony}, `}</span>
                               <span>{`CP:${order.attributes.orderAddress.data.attributes.postalCode},`}</span>
-                              <span>{`${order.attributes.orderAddress.data.attributes.city}`}</span>
-                              <span>{`${order.attributes.orderAddress.data.attributes.state}`}</span>
+                              <span>{` ${order.attributes.orderAddress.data.attributes.city}`}</span>
+                              <span>{` ${order.attributes.orderAddress.data.attributes.state}`}</span>
                             </p>
                           </div>
                         </div>

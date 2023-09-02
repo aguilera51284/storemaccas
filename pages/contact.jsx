@@ -47,7 +47,7 @@ function Contact() {
       <div className="bg-slate-100 py-12 md:py-24">
         <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-lg bg-white p-8 shadow-md">
           <EnvelopeIcon className="mt-2 h-20 w-20 text-accent-500" />
-          <h1 className="text-5xl font-semibold">Contactanos</h1>
+          <h1 className="text-5xl font-semibold">Contáctanos</h1>
           <p className="mt-2 text-sm text-gray-500">
             En MACCAS, valoramos tu opinión y estamos comprometidos a brindarte
             el mejor servicio posible. Si tienes alguna pregunta, inquietud o
@@ -115,7 +115,7 @@ function Contact() {
                 htmlFor="phone"
                 className="mb-2 block text-sm font-medium text-gray-600 "
               >
-                Télefono:
+                Teléfono:
               </label>
               <Controller
                 name="phone"

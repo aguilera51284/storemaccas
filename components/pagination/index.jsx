@@ -86,7 +86,7 @@ const Pagination = ({ pagination }) => {
             }
           >
             <span className="inline-flex flex-row-reverse items-center gap-x-2">
-              Previous
+              Anterior
             </span>
           </a>
         </li>
@@ -122,7 +122,7 @@ const Pagination = ({ pagination }) => {
               handlePageClick((parseInt(currentPage, 10) + 1).toString())
             }
           >
-            <span className="inline-flex items-center gap-x-2">Next</span>
+            <span className="inline-flex items-center gap-x-2">Siguiente</span>
           </a>
         </li>
         {/* Resto del código... */}

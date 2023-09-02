@@ -53,12 +53,12 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
             $or: [
               {
                 description: {
-                  $containsi: input,
+                  $containsi: input.split(' '),
                 },
               },
               {
                 code: {
-                  $containsi: input,
+                  $containsi: input.split(' '),
                 },
               },
             ],
@@ -76,7 +76,9 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
     if (queryParams.filters && queryParams.filters.$or) {
       const descriptionFilterParam =
         queryParams.filters.$or[0]?.description?.$containsi
-      setInput(descriptionFilterParam)
+      if (typeof descriptionFilterParam === 'string') {
+        setInput(descriptionFilterParam.replace(',', ' '))
+      }
     }
   }, [router.query])
 
@@ -118,7 +120,7 @@ const Catalog = ({ tags, carBrands, productBrand }) => {
                     </svg>
                     <span className="relative">Explora</span>
                   </span>{' '}
-                  nuestro catalogo que tenemos para ti.
+                  nuestro catálogo que tenemos para ti.
                 </h2>
               </div>
             </div>
