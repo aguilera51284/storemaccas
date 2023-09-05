@@ -120,7 +120,7 @@ const ProductDetail = ({ product }) => {
             </h4>
             {/** List */}
             <ul className="my-6 mx-auto w-2/3">
-            {product.attributes.carBrand.data && (
+              {product.attributes.carBrand.data && (
                 <li className="flex items-center justify-center  space-x-6 py-2 text-lg">
                   <label htmlFor="brand" className="w-1/2 font-semibold">
                     Marca:
@@ -152,8 +152,6 @@ const ProductDetail = ({ product }) => {
                   </span>
                 </li>
               )}
-
-
             </ul>
 
             <div className="mt-12 flex items-center justify-between ">
