@@ -62,7 +62,7 @@ function ShopSidebarOne(props) {
                 href="#Size"
                 className="block w-full bg-gray-50 px-5 py-3 text-xs font-medium"
               >
-                Armadora
+                Marca del producto
               </a>
             </h3>
             <div>
@@ -149,7 +149,7 @@ function ShopSidebarOne(props) {
                 href="#colour"
                 className="block w-full bg-gray-50 px-5 py-3 text-xs font-medium"
               >
-                Marca del producto:
+                Marca vehículo:
               </a>
             </h3>
             <div>
