@@ -5,6 +5,7 @@ import { Provider, useCreateStore } from '@/store'
 import { SessionProvider } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
+import Script from 'next/script'
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   const createStore = useCreateStore(pageProps.initialZustandState)
@@ -40,6 +41,16 @@ function App({ Component, pageProps: { session, ...pageProps } }) {
           }}
         >
           <Component {...pageProps} />
+          <Script id="google-analytics">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-XTZ064DHQL');
+        `}
+          </Script>
+          <Script src="https://www.googletagmanager.com/gtag/js?id=G-XTZ064DHQL" />
         </SWRConfig>
       </Provider>
     </SessionProvider>
