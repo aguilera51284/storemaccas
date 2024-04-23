@@ -12,7 +12,6 @@ import qs from 'qs'
 export default function Home({ homeBanner, tagsHome }) {
   return (
     <Layout>
-      {/* Main Banner */}
       <Banner slides={homeBanner.data} />
       {/** Top products */}
       <SlidesPrducts url={`products?${getTopProducts}`} title="Productos Top" />
